@@ -1,0 +1,2 @@
+# Purpose: EXO-QuoteIncrease — 177.240.246.94 Online mailbox and mail flow administration.
+Set-Mailbox -Identity "user@email.com" -IssueWarningQuota 900mb -ProhibitSendQuota 950mb -ProhibitSendReceiveQuota 1gb -UseDatabaseQuotaDefaults $false

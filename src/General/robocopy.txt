@@ -1,0 +1,36 @@
+cls 
+Function SetOldFolder { 
+[void] [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms") 
+        $OldFolderBrowser = New-Object System.Windows.Forms.FolderBrowserDialog 
+        $OldFolderBrowser.RootFolder = "Desktop" 
+        $OldFolderBrowser.Description = "Please select the SOURCE folder (e.g. Y:\Testfolder)" 
+        If($OldFolderBrowser.ShowDialog() -eq "OK") {$global:OldFolder = $OldFolderBrowser.SelectedPath} 
+        Else {Break} 
+        $ConfirmationOldFolder = New-Object -ComObject wscript.shell 
+        $ConfirmationPopupOldFolder = $ConfirmationOldFolder.popup("The SOURCE folder is set to $($OldFolder), is this correct?",0,"Confirm the old location",4) 
+        If ($ConfirmationPopupOldFolder -ne 6) {SetOldFolder} 
+    } 
+Function SetNewFolder { 
+[void] [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms") 
+        $NewFolderBrowser = New-Object System.Windows.Forms.FolderBrowserDialog 
+        $NewFolderBrowser.RootFolder = "Desktop" 
+        $NewFolderBrowser.Description = "Please create/select the DESTINATION folder you wish to move the contents of $($OldFolder) to. (e.g. Z:\Testfolder)" 
+        If($NewFolderBrowser.ShowDialog() -eq "OK") {$global:NewFolder = $NewFolderBrowser.SelectedPath} 
+        Else {Break} 
+        $ConfirmationNewFolder = New-Object -ComObject wscript.shell 
+        $ConfirmationPopupNewFolder = $ConfirmationNewFolder.popup("The destination folder is set to $($NewFolder), is this correct?",0,"Confirm the new location",4) 
+        If ($ConfirmationPopupNewFolder -ne 6) {SetNewFolder} 
+    } 
+Function CopyFolder{ 
+        $ConfirmationRobocopy = New-Object -ComObject wscript.shell 
+        $ConfirmationPopupRobocopy = $ConfirmationRobocopy.popup("Are you sure you want to move the contents of $($OldFolder) to $($NewFolder)?",0,"Confirm before copying",4) 
+        If ($ConfirmationPopupRobocopy -ne 6) {Break} 
+        Robocopy $OldFolder $NewFolder /E /SEC /TEE /R:2 /LOG:$Logfile 
+        [Windows.Forms.MessageBox]::Show(“ROBOCOPY Has moved the contents of $($OldFolder) to $($NewFolder)”, “Folder Mover”, [Windows.Forms.MessageBoxButtons]::OK, [Windows.Forms.MessageBoxIcon]::Information) 
+    } 
+$ScriptPath = Split-Path $MyInvocation.MyCommand.Path 
+$Logfile = $ScriptPath+"\Robocopy Logfile.log" 
+SetOldFolder 
+SetNewFolder 
+CopyFolder 
+ 

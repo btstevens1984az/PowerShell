@@ -1,0 +1,44 @@
+Third-Party and Sample Code Notice
+==================================
+
+This repository is a personal collection of PowerShell scripts, utilities, and
+reference materials for IT infrastructure automation. Unless otherwise noted in
+a specific file, original scripts are licensed under the MIT License (see LICENSE).
+
+The repository may include code from or based on third-party sources. Users are
+responsible for complying with the original licenses of included components.
+
+Known third-party and sample content
+------------------------------------
+
+Microsoft Corporation
+  - Power Apps / Dataverse / CDS sample projects under src/PowerApps/Scripts/
+  - Licensed under Microsoft's sample terms; see src/PowerApps/Scripts/LICENSE
+
+LazyWinAdmin
+  - Community PowerShell administration framework in src/General/LazyWinAdmin*.ps1
+  - Original work by various community authors; retain original author credits
+
+Pester / PowerShellGet test samples
+  - Shared/Testing/Pester/ — Microsoft PowerShell Gallery test fixtures
+
+Sophia Script for Windows
+  - src/Windows-Desktop/sophia.ps1, Windows10Sophia.ps1 — community tuning scripts
+
+Individual script authors
+  - Many scripts include .NOTES or comment-block author attributions.
+  - Respect per-file credits when reusing or redistributing specific scripts.
+
+Disclaimer
+----------
+
+Scripts are provided for educational and administrative automation purposes.
+Review, test, and adapt all scripts before use in production environments.
+Remove or replace placeholder values (domains, servers, email addresses) with
+values appropriate for your organization.
+
+No affiliation
+--------------
+
+This project is not affiliated with, endorsed by, or sponsored by any former
+employer or third-party organization referenced in sanitized placeholder values.

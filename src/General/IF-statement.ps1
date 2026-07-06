@@ -1,0 +1,2 @@
+# Purpose: IF-statement — General-purpose PowerShell utilities.
+if ( $true  )      { write-output "True means DO IT!" }if ( $false )      { write-output "will not happen!"}if (-NOT ($false)) { write-output "will happen!"}#####$i = get-random -Max 10if ($i -eq 10) { write-output "I=10" }if ( (get-date).DayOfWeek �eq �Tuesday� ) {write-output �Yes it IS Tuesday!�}###### experiment with zero and non-zero, (0,1,-1), true/false, "True", "False", ""if ($i) {  write-output "stuff here"}

@@ -1,0 +1,5 @@
+country,name,SAMAccountName,FirstName,Lastname,UserSamname,Access
+India,TestDL1,TestDL1,Vikas,Sukhija,sukhijav,No        
+Japan,TestDL2,TestDL2,Aishwarya,Rawat,Rawatas,yes
+Korea,TestDL3,TestDL3,Sandeep,Bhardwaj,SandyB,No        
+USA,TestDL4,TestDL4,Akshit,Behl,BehlAKs,yes

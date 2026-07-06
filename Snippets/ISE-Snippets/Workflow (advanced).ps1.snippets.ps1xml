@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='utf-8' ?>
+    <Snippets  xmlns='http://schemas.microsoft.com/PowerShell/Snippets'>
+        <Snippet Version='1.0.0'>
+            <Header>
+                <Title>Workflow (advanced).ps1</Title>
+                <Description></Description>
+                <Shortcut>workf</Shortcut> 
+                <Keywords>ScriptBlock,Editor</Keywords>
+                <Author>Tobias</Author>
+                <DifficultyLevel>7</DifficultyLevel>
+                <Example>False</Example>
+                <SnippetTypes>
+                    <SnippetType>Expansion</SnippetType>
+                </SnippetTypes>
+                <Requirements>
+                    <MinimumPowerShellVersion>4</MinimumPowerShellVersion>
+                    <RequiredModules></RequiredModules>
+                    <AdminPrivileges>False</AdminPrivileges>
+                    <ProcessorArchitecture>x86,x64</ProcessorArchitecture>
+                </Requirements>
+            </Header>
+
+            <Code>
+                <Script Language='PowerShell' CaretOffset='1645'>
+                    <![CDATA[workflow Verb-Noun
+{
+	<#
+			.Synopsis
+			Short description
+			.DESCRIPTION
+			Long description
+			.EXAMPLE
+			Example of how to use this workflow
+			.EXAMPLE
+			Another example of how to use this workflow
+			.INPUTS
+			Inputs to this workflow (if any)
+			.OUTPUTS
+			Output from this workflow (if any)
+			General notes
+			.FUNCTIONALITY
+			The functionality that best describes this workflow
+	#>
+
+	 [CmdletBinding(DefaultParameterSetName='Parameter Set 1',
+						HelpUri = 'http://www.microsoft.com/',
+						ConfirmImpact='Medium')]
+	 [Alias()]
+	 [OutputType([String])]
+	 Param
+	 (
+		  # Param1 help description
+		  [Parameter(Mandatory=$true, 
+						 Position=0,
+						 ParameterSetName='Parameter Set 1')]
+		  [ValidateNotNull()]
+		  [Alias('p1')] 
+		  $Param1,
+
+		  # Param2 help description
+		  [int]
+		  $Param2
+	 )
+
+	 # Saves (persists) the current workflow state and output
+	 # Checkpoint-Workflow
+
+	 # Suspends the workflow
+	 # Suspend-Workflow 
+
+	 # Workflow common parameters are available as variables such as:
+	 $PSPersist 
+	 $PSComputerName
+	 $PSCredential
+	 $PSUseSsl
+	 $PSAuthentication
+
+	 # Workflow runtime information can be accessed by using the following variables:
+	 $Input
+	 $PSSenderInfo
+	 $PSWorkflowRoot
+	 $JobCommandName
+	 $ParentCommandName
+	 $JobId
+	 $ParentJobId
+	 $WorkflowInstanceId
+	 $JobInstanceId
+	 $ParentJobInstanceId
+	 $JobName
+	 $ParentJobName
+
+	 # Set the progress message ParentActivityId
+	 $PSParentActivityId
+
+	 # Preference variables that control runtime behavior
+	 $PSRunInProcessPreference
+	 $PSPersistPreference
+}
+]]>
+                </Script>
+            </Code>
+
+    </Snippet>
+</Snippets>

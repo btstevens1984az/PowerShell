@@ -1,0 +1,46 @@
+﻿<?xml version='1.0' encoding='utf-8' ?>
+    <Snippets  xmlns='http://schemas.microsoft.com/PowerShell/Snippets'>
+        <Snippet Version='1.0.0'>
+            <Header>
+                <Title>scriptblock</Title>
+                <Description>encapsulates code in a scriptblock</Description>
+                <Shortcut>sb</Shortcut> 
+                <Keywords>editor,console</Keywords>
+                <Author>ISESteroids</Author>
+                <DifficultyLevel>1</DifficultyLevel>
+                <Example>False</Example>
+                <SnippetTypes>
+                    <SnippetType>Expansion</SnippetType>
+                    <SnippetType>SurroundsWith</SnippetType>
+                    <SnippetType>Refactor</SnippetType>
+                </SnippetTypes>
+                <Requirements>
+                    <MinimumPowerShellVersion>1</MinimumPowerShellVersion>
+                    <RequiredModules></RequiredModules>
+                    <AdminPrivileges>False</AdminPrivileges>
+                    <ProcessorArchitecture>x64</ProcessorArchitecture>
+                </Requirements>
+            </Header>
+            <Declarations>
+                <Literal>
+                   <ID><![CDATA[5;9;0]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[Code in scriptblock]]></ToolTipStatusbar>
+                   <EncloseSelection>true</EncloseSelection>
+                   <SupportsSurroundsWith>true</SupportsSurroundsWith>
+                </Literal>
+            </Declarations>
+
+
+            <Code>
+                <Script Language='PowerShell' CaretOffset='19'>
+                    <![CDATA[{
+  # Content
+}
+]]>
+                </Script>
+            </Code>
+
+    </Snippet>
+</Snippets>

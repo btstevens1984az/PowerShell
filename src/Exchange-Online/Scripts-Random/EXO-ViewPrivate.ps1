@@ -1,0 +1,2 @@
+# Purpose: EXO-ViewPrivate — 177.240.246.94 Online mailbox and mail flow administration.
+Add-MailboxFolderPermission -Identity mailboxowner@email.com:\Calendar -User requestor@email.com -AccessRights Editor -SharingPermissionFlags CanViewPrivateItems,Delegate

@@ -1,0 +1,1 @@
+../../Inventory/Get-SystemInfo_complete.ps1

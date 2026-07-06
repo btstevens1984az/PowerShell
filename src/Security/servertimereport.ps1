@@ -1,0 +1,2 @@
+# Purpose: servertimereport — Security auditing and compliance checks.
+Get-Content serverslist.txt | %{$x = net time \\$_; $x[0];If($x[2].contains(�Local�)){$x[2]}} | Add-Content h:\AD-Reports\ServerTime.txt

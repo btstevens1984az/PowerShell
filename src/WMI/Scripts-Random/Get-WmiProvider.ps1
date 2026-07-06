@@ -1,0 +1,1 @@
+../../../Modules/WMI/Get-WmiProvider.ps1

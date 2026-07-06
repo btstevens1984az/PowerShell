@@ -1,0 +1,1 @@
+../../Middleware-Packaging/Scripts/Get-MSIFileInformation.ps1

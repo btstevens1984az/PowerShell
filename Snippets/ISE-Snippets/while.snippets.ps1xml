@@ -1,0 +1,63 @@
+﻿<?xml version='1.0' encoding='utf-8' ?>
+    <Snippets  xmlns='http://schemas.microsoft.com/PowerShell/Snippets'>
+        <Snippet Version='1.0.0'>
+            <Header>
+                <Title>while</Title>
+                <Description>repeats code while condition is met</Description>
+                <Shortcut>while</Shortcut> 
+                <Keywords>ScriptBlock</Keywords>
+                <Author>Tobias</Author>
+                <DifficultyLevel>1</DifficultyLevel>
+                <Example>False</Example>
+                <SnippetTypes>
+                    <SnippetType>Expansion</SnippetType>
+                    <SnippetType>SurroundsWith</SnippetType>
+                </SnippetTypes>
+                <Requirements>
+                    <MinimumPowerShellVersion>1</MinimumPowerShellVersion>
+                    <RequiredModules></RequiredModules>
+                    <AdminPrivileges>False</AdminPrivileges>
+                    <ProcessorArchitecture>x86,x64</ProcessorArchitecture>
+                </Requirements>
+            </Header>
+            <Declarations>
+                <Literal>
+                   <ID><![CDATA[8;1;1]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[Variable to check]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[Variable to check]]></ToolTipStatusbar>
+                </Literal>
+                <Literal>
+                   <ID><![CDATA[11;2;0]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[Operator]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[Operator]]></ToolTipStatusbar>
+                </Literal>
+                <Literal>
+                   <ID><![CDATA[14;1;0]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[Value to check against]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[Value to check against]]></ToolTipStatusbar>
+                </Literal>
+                <Literal>
+                   <ID><![CDATA[23;9;0]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[Code to repeat]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[Code to repeat]]></ToolTipStatusbar>
+                   <EncloseSelection>true</EncloseSelection>
+                </Literal>
+            </Declarations>
+
+
+            <Code>
+                <Script Language='PowerShell' CaretOffset='37'>
+                    <![CDATA[while ($x -gt 0)
+{
+  # Content
+}
+]]>
+                </Script>
+            </Code>
+
+    </Snippet>
+</Snippets>

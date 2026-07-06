@@ -1,0 +1,1 @@
+../Scripts/SqlQuery2.ps1

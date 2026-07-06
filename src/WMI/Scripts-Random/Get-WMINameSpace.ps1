@@ -1,0 +1,1 @@
+../../../Modules/WMI/Get-WMINameSpace.ps1

@@ -1,0 +1,56 @@
+﻿<?xml version='1.0' encoding='utf-8' ?>
+    <Snippets  xmlns='http://schemas.microsoft.com/PowerShell/Snippets'>
+        <Snippet Version='1.0.0'>
+            <Header>
+                <Title>DSC ResourceProvider (simple).ps1</Title>
+                <Description></Description>
+                <Shortcut></Shortcut> 
+                <Keywords>ScriptBlock</Keywords>
+                <Author>Tobias</Author>
+                <DifficultyLevel>1</DifficultyLevel>
+                <Example>False</Example>
+                <SnippetTypes>
+                    <SnippetType>Expansion</SnippetType>
+                </SnippetTypes>
+                <Requirements>
+                    <MinimumPowerShellVersion>4</MinimumPowerShellVersion>
+                    <RequiredModules></RequiredModules>
+                    <AdminPrivileges>False</AdminPrivileges>
+                    <ProcessorArchitecture>x86,x64</ProcessorArchitecture>
+                </Requirements>
+            </Header>
+
+            <Code>
+                <Script Language='PowerShell' CaretOffset='623'>
+                    <![CDATA[Function Get-TargetResource
+{
+    # TODO: Add parameters here
+    # Make sure to use the same parameters for
+    # Get-TargetResource, Set-TargetResource, and Test-TargetResource
+    param(
+    )
+}
+
+Function Set-TargetResource
+{
+    # TODO: Add parameters here
+    # Make sure to use the same parameters for
+    # Get-TargetResource, Set-TargetResource, and Test-TargetResource
+    param(
+    )
+}
+
+Function Test-TargetResource
+{
+    # TODO: Add parameters here
+    # Make sure to use the same parameters for
+    # Get-TargetResource, Set-TargetResource, and Test-TargetResource
+    param(
+    )
+}
+]]>
+                </Script>
+            </Code>
+
+    </Snippet>
+</Snippets>

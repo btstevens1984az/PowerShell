@@ -1,0 +1,10 @@
+CREATE TABLE testlist
+(
+country varchar(255),
+name varchar(255),
+SAMAccountName varchar(255),
+FirstName varchar(255),
+Lastname varchar(255),
+UserSamname varchar(255),
+Access varchar(255)
+);

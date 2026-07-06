@@ -1,0 +1,2 @@
+# Purpose: MISC-GridViewOut — General-purpose PowerShell utilities.
+Show-Command -Name "C:\Users\wyldeja\OneDrive - Smurfit Kappa\Documents\admin\github\powershell-repo\MISC-ShutdownFind.ps1" | Out-GridView

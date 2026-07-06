@@ -1,0 +1,1 @@
+../../General/Get-NetAdapterInfo.ps1

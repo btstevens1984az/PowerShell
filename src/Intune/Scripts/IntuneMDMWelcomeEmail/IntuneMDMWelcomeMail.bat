@@ -1,0 +1,1 @@
+powershell .\IntuneMDMWelcomeMail.ps1 -smtpserver "smtp server" -from "IntuneEnrollment@labtest.com" -erroremail ReportsLogs@labtest.com -countofchanges 100 -userid "serviceaccount@labtestcom"

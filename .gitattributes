@@ -1,0 +1,17 @@
+# GitHub Linguist — show PowerShell as the primary repository language
+# https://github.com/github-linguist/linguist/blob/master/docs/overrides.md
+
+# Bundled Microsoft PowerApps / CDS / Dataverse sample projects (reference only)
+src/PowerApps/**    linguist-vendored
+
+# Certification notes, book samples, and learning references
+Reference/**        linguist-documentation
+
+# Explicitly classify PowerShell script extensions
+*.ps1               linguist-language=PowerShell
+*.psm1              linguist-language=PowerShell
+*.psd1              linguist-language=PowerShell
+*.ps1xml            linguist-language=PowerShell
+
+# Line ending normalization
+*                   text=auto

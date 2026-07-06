@@ -1,0 +1,30 @@
+﻿<?xml version='1.0' encoding='utf-8' ?>
+    <Snippets  xmlns='http://schemas.microsoft.com/PowerShell/Snippets'>
+        <Snippet Version='1.0.0'>
+            <Header>
+                <Title>ValueFromPipeline Attribute</Title>
+                <Description>can be used inside a parameter block to allow pipeline input by value. The incoming pipeline data is bound to the parameter if binding is possible (data types match)</Description>
+                <Shortcut>Val</Shortcut> 
+                <Keywords>Attribute</Keywords>
+                <Author>Tobias</Author>
+                <DifficultyLevel>5</DifficultyLevel>
+                <Example>False</Example>
+                <SnippetTypes>
+                    <SnippetType>Expansion</SnippetType>
+                </SnippetTypes>
+                <Requirements>
+                    <MinimumPowerShellVersion>1</MinimumPowerShellVersion>
+                    <RequiredModules></RequiredModules>
+                    <AdminPrivileges>False</AdminPrivileges>
+                    <ProcessorArchitecture>x86,x64</ProcessorArchitecture>
+                </Requirements>
+            </Header>
+
+            <Code>
+                <Script Language='PowerShell' CaretOffset='17'>
+                    <![CDATA[ValueFromPipeline]]>
+                </Script>
+            </Code>
+
+    </Snippet>
+</Snippets>

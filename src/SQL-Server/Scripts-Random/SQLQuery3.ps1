@@ -1,0 +1,1 @@
+../Scripts/SQLQuery3.ps1

@@ -1,0 +1,1 @@
+../../General/ExternalWarningRule.ps1

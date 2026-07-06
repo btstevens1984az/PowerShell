@@ -1,0 +1,30 @@
+﻿<?xml version='1.0' encoding='utf-8' ?>
+    <Snippets  xmlns='http://schemas.microsoft.com/PowerShell/Snippets'>
+        <Snippet Version='1.0.0'>
+            <Header>
+                <Title>Type [Double]</Title>
+                <Description>inserts declaration for data type &quot;double&quot;. A double data type represents signed IEEE 64-bit (8-byte) double-precision floating-point numbers.</Description>
+                <Shortcut>[Do</Shortcut> 
+                <Keywords>Comment,Parameter,Attribute,Pipeline,ScriptBlock,Editor,Console</Keywords>
+                <Author>Tobias</Author>
+                <DifficultyLevel>6</DifficultyLevel>
+                <Example>False</Example>
+                <SnippetTypes>
+                    <SnippetType>Expansion</SnippetType>
+                </SnippetTypes>
+                <Requirements>
+                    <MinimumPowerShellVersion>1</MinimumPowerShellVersion>
+                    <RequiredModules></RequiredModules>
+                    <AdminPrivileges>False</AdminPrivileges>
+                    <ProcessorArchitecture>x86,x64</ProcessorArchitecture>
+                </Requirements>
+            </Header>
+
+            <Code>
+                <Script Language='PowerShell' PowerShellCaretOffset='8'>
+                    <![CDATA[[Double]]]>
+                </Script>
+            </Code>
+
+    </Snippet>
+</Snippets>

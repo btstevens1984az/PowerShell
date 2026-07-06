@@ -1,0 +1,54 @@
+﻿<?xml version='1.0' encoding='utf-8' ?>
+    <Snippets  xmlns='http://schemas.microsoft.com/PowerShell/Snippets'>
+        <Snippet Version='1.0.0'>
+            <Header>
+                <Title>Param block (simple)</Title>
+                <Description>adds simple param() block</Description>
+                <Shortcut>par</Shortcut> 
+                <Keywords>scriptblock</Keywords>
+                <Author>Tobias</Author>
+                <DifficultyLevel>1</DifficultyLevel>
+                <Example>False</Example>
+                <SnippetTypes>
+                    <SnippetType>Expansion</SnippetType>
+                </SnippetTypes>
+                <Requirements>
+                    <MinimumPowerShellVersion>1</MinimumPowerShellVersion>
+                    <RequiredModules></RequiredModules>
+                    <AdminPrivileges>False</AdminPrivileges>
+                    <ProcessorArchitecture>x86,x64</ProcessorArchitecture>
+                </Requirements>
+            </Header>
+            <Declarations>
+                <Literal>
+                   <ID><![CDATA[51;10;0]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[Parameter 1 name]]></ToolTipStatusbar>
+                </Literal>
+                <Literal>
+                   <ID><![CDATA[81;15;0]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[Parameter 2 name]]></ToolTipStatusbar>
+                </Literal>
+            </Declarations>
+
+
+            <Code>
+                <Script Language='PowerShell' CaretOffset='101'>
+                    <![CDATA[param
+(
+  [String]
+  [Parameter(Mandatory)]
+  $Parameter1,
+
+  [String]
+  $Parameter2 = ''
+)
+]]>
+                </Script>
+            </Code>
+
+    </Snippet>
+</Snippets>

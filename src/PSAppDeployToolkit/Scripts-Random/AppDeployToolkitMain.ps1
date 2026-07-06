@@ -1,0 +1,1 @@
+../Scripts/AppDeployToolkitMain.ps1

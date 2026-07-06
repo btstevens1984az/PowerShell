@@ -1,0 +1,19 @@
+# Purpose: Get-BiosArgsCheck1 — Hardware and software inventory collection.
+# ------------------------------------------------------------------------
+# DATE: 5/10/2009
+#
+# KEYWORDS: Get-WmiObject, Win32_Bios, $args
+# command line arguments
+#
+# COMMENTS: This script illustrates accepting a command
+# line argument. When the script is run, the computer name
+# must be supplied. 
+# Ex: Get-Bios localhost
+#
+# ------------------------------------------------------------------------
+If($args.count -eq 0) 
+  {
+   Write-Host -foregroundcolor Cyan "Please supply computer name"
+   Exit
+  } #end if
+Get-WmiObject -Class win32_bios -computername $args 

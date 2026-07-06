@@ -1,0 +1,67 @@
+/* PowerShell brand theme for GitHub Pages */
+:root {
+  --powershell-blue: #012456;
+  --powershell-cyan: #00BCF2;
+  --powershell-orange: #F7630C;
+  --powershell-dark: #1E1E1E;
+}
+
+body {
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.page-header {
+  background: linear-gradient(135deg, var(--powershell-blue) 0%, #02386e 50%, var(--powershell-cyan) 100%) !important;
+  background-image: none !important;
+}
+
+.page-header h1,
+.page-header h2 {
+  color: #ffffff !important;
+}
+
+.main-content h1,
+.main-content h2 {
+  color: var(--powershell-blue);
+  border-bottom: 2px solid var(--powershell-cyan);
+  padding-bottom: 0.3em;
+}
+
+.main-content a {
+  color: var(--powershell-cyan);
+}
+
+.main-content a:hover {
+  color: var(--powershell-orange);
+}
+
+.btn {
+  background-color: var(--powershell-blue) !important;
+  border-color: var(--powershell-cyan) !important;
+}
+
+.btn:hover {
+  background-color: var(--powershell-cyan) !important;
+  color: var(--powershell-dark) !important;
+}
+
+table th {
+  background-color: var(--powershell-blue);
+  color: #ffffff;
+}
+
+code {
+  background-color: #f0f4f8;
+  color: var(--powershell-blue);
+  border-radius: 3px;
+  padding: 0.1em 0.3em;
+}
+
+blockquote {
+  border-left: 4px solid var(--powershell-cyan);
+  color: #555;
+}
+
+.site-footer {
+  border-top: 2px solid var(--powershell-cyan);
+}
