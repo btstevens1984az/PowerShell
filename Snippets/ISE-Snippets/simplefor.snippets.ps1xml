@@ -1,0 +1,76 @@
+﻿<?xml version='1.0' encoding='utf-8' ?>
+    <Snippets  xmlns='http://schemas.microsoft.com/PowerShell/Snippets'>
+        <Snippet Version='1.0.0'>
+            <Header>
+                <Title>for loop</Title>
+                <Description>iterates from initial to end value in given increment</Description>
+                <Shortcut>for</Shortcut> 
+                <Keywords>scriptblock</Keywords>
+                <Author>ISESteroids</Author>
+                <DifficultyLevel>2</DifficultyLevel>
+                <Example>False</Example>
+                <SnippetTypes>
+                    <SnippetType>Expansion</SnippetType>
+                    <SnippetType>SurroundsWith</SnippetType>
+                </SnippetTypes>
+                <Requirements>
+                    <MinimumPowerShellVersion>1</MinimumPowerShellVersion>
+                    <RequiredModules></RequiredModules>
+                    <AdminPrivileges>False</AdminPrivileges>
+                    <ProcessorArchitecture>x86,x64</ProcessorArchitecture>
+                </Requirements>
+            </Header>
+            <Declarations>
+                <Literal>
+                   <ID><![CDATA[6;1;0;6;1;17;1;31;1;60;1;86;1]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[iteration variable name]]></ToolTipStatusbar>
+                </Literal>
+                <Literal>
+                   <ID><![CDATA[10;4;0]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[start value]]></ToolTipStatusbar>
+                </Literal>
+                <Literal>
+                   <ID><![CDATA[20;2;0]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[comparison operator]]></ToolTipStatusbar>
+                </Literal>
+                <Literal>
+                   <ID><![CDATA[23;5;0]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[stop value]]></ToolTipStatusbar>
+                </Literal>
+                <Literal>
+                   <ID><![CDATA[36;3;0]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[increment]]></ToolTipStatusbar>
+                </Literal>
+                <Literal>
+                   <ID><![CDATA[48;45;0]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[code to repeat]]></ToolTipStatusbar>
+                   <EncloseSelection>true</EncloseSelection>
+                </Literal>
+            </Declarations>
+
+
+            <Code>
+                <Script Language='PowerShell' CaretOffset='98'>
+                    <![CDATA[for ($x = 1000; $x -lt 15000; $x += 300) 
+{
+  "Frequency $x Hz"
+  [Console]::Beep($x, 500)
+}
+]]>
+                </Script>
+            </Code>
+
+    </Snippet>
+</Snippets>

@@ -1,0 +1,2 @@
+# Purpose: Get-QADUser_cn_createtimestamp_disabled — General-purpose PowerShell utilities.
+Get-QADUser -SizeLimit 0 -ErrorAction SilentlyContinue -IncludedProperties cn,createtimestamp -Disabled | Format-Table cn,createtimestamp | Out-File c:\temp\powershell\users_disabled.txt

@@ -1,0 +1,1 @@
+../../Middleware-Packaging/Scripts/Get-Msiinfo.ps1

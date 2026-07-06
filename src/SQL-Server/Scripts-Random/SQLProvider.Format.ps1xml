@@ -1,0 +1,5290 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- *******************************************************************
+Copyright (c) Microsoft Corporation.  All rights reserved.
+******************************************************************** -->
+
+<Configuration>
+
+
+  <SelectionSets>
+    <SelectionSet>
+      <Name>RegisteredServerTypes</Name>
+      <Types>
+        <TypeName>Microsoft.SqlServer.Management.RegisteredServers.ServerGroup</TypeName>
+        <TypeName>Microsoft.SqlServer.Management.RegisteredServers.RegisteredServer</TypeName>
+      </Types>
+    </SelectionSet>
+  </SelectionSets>
+
+  <!-- ################ GLOBAL CONTROL DEFINITIONS ################ -->
+  <Controls>
+    <Control>
+      <Name>RegisteredServerTypes-GroupingFormat</Name>
+      <CustomControl>
+        <CustomEntries>
+          <CustomEntry>
+            <CustomItem>
+              <Frame>
+                <LeftIndent>4</LeftIndent>
+                <CustomItem>
+                  <Text>Directory: </Text>
+                  <ExpressionBinding>
+                    <ScriptBlock>$_.PSParentPath</ScriptBlock>
+                  </ExpressionBinding>
+                  <NewLine/>
+                </CustomItem>
+              </Frame>
+            </CustomItem>
+          </CustomEntry>
+        </CustomEntries>
+      </CustomControl>
+    </Control>
+  </Controls>
+
+
+
+  <ViewDefinitions>
+
+    <!-- SMO -->
+
+    <View>
+      <Name>Server</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Smo.Server</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Instance Name</Label>
+            <Width>80</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>DisplayName</PropertyName>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+	  <View>
+		  <Name>Database</Name>
+		  <ViewSelectedBy>
+			  <TypeName>Microsoft.SqlServer.Management.Smo.Database</TypeName>
+		  </ViewSelectedBy>
+		  <TableControl>
+			  <TableHeaders>
+
+				  <TableColumnHeader>
+					  <Label>Name</Label>
+					  <Width>20</Width>
+					  <Alignment>left</Alignment>
+				  </TableColumnHeader>
+
+				  <TableColumnHeader>
+					  <Label>Status</Label>
+					  <Width>10</Width>
+					  <Alignment>left</Alignment>
+				  </TableColumnHeader>
+
+				  <TableColumnHeader>
+					  <Label>Size</Label>
+					  <Width>10</Width>
+					  <Alignment>right</Alignment>
+				  </TableColumnHeader>
+
+				  <TableColumnHeader>
+					  <Label>Space Available</Label>
+					  <Width>10</Width>
+					  <Alignment>right</Alignment>
+				  </TableColumnHeader>
+
+				  <TableColumnHeader>
+					  <Label>Recovery Model</Label>
+					  <Width>8</Width>
+					  <Alignment>left</Alignment>
+				  </TableColumnHeader>
+
+				  <TableColumnHeader>
+					  <Label>Compat. Level</Label>
+					  <Width>7</Width>
+					  <Alignment>right</Alignment>
+				  </TableColumnHeader>
+
+				  <TableColumnHeader>
+					  <Label>Owner</Label>
+					  <Width>25</Width>
+					  <Alignment>left</Alignment>
+				  </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Collation</Label>
+            <Width>30</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+					  <Label>Containment Type</Label>
+					  <Width>12</Width>
+					  <Alignment>left</Alignment>
+				  </TableColumnHeader>
+
+			  </TableHeaders>
+			  <TableRowEntries>
+				  <TableRowEntry>
+					  <Wrap/>
+					  <TableColumnItems>
+
+						  <TableColumnItem>
+							  <PropertyName>Name</PropertyName>
+						  </TableColumnItem>
+
+						  <TableColumnItem>
+							  <PropertyName>Status</PropertyName>
+						  </TableColumnItem>
+
+						  <TableColumnItem>
+                <!-- SMO Size property is expressed in MB -->
+							  <ScriptBlock>if ($_.Size -ge 1MB) { '{0:F0} TB' -f ($_.Size / 1MB) } elseif ($_.Size -ge 10KB) { '{0:F0} GB' -f ($_.Size / 1KB) } elseif ($_.Size -ge 1KB) { '{0:F1} GB' -f ($_.Size / 1KB) } else { '{0:F2} MB' -f $_.Size }</ScriptBlock>
+						  </TableColumnItem>
+
+						  <TableColumnItem>
+                <!-- SMO SpaceAvailable property is expressed in KB -->
+							  <ScriptBlock>if ($_.SpaceAvailable -ge 1GB) { '{0:F0} TB' -f ($_.SpaceAvailable / 1GB) } elseif ($_.SpaceAvailable -ge 10MB) { '{0:F0} GB' -f ($_.SpaceAvailable / 1MB) } elseif ($_.SpaceAvailable -ge 1MB) { '{0:F1} GB' -f ($_.SpaceAvailable / 1MB) } elseif ($_.SpaceAvailable -ge 1KB) { '{0:F2} MB' -f ($_.SpaceAvailable / 1KB) } else { '{0:F2} KB' -f $_.SpaceAvailable }</ScriptBlock>
+						  </TableColumnItem>
+
+						  <TableColumnItem>
+							  <PropertyName>RecoveryModel</PropertyName>
+						  </TableColumnItem>
+
+						  <TableColumnItem>
+							  <ScriptBlock>
+								  [int] $_.CompatibilityLevel
+							  </ScriptBlock>
+						  </TableColumnItem>
+
+						  <TableColumnItem>
+							  <PropertyName>Owner</PropertyName>
+						  </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Collation</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+							  <PropertyName>ContainmentType</PropertyName>
+						  </TableColumnItem>
+
+					  </TableColumnItems>
+				  </TableRowEntry>
+			  </TableRowEntries>
+		  </TableControl>
+	  </View>
+
+    <View>
+      <Name>Table</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Smo.Table</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Schema</Label>
+            <Width>24</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>26</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Row Count</Label>
+            <Width>10</Width>
+            <Alignment>right</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Storage Space Used</Label>
+            <Width>10</Width>
+            <Alignment>right</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Index Space Used</Label>
+            <Width>10</Width>
+            <Alignment>right</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Created</Label>
+            <Width>22</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <Wrap/>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Schema</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>RowCount</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <!-- SMO DataSpaceUsed property is expressed in KB -->
+                <ScriptBlock>if ($_.DataSpaceUsed -ge 1GB) { '{0:F0} TB' -f ($_.DataSpaceUsed / 1GB) } elseif ($_.DataSpaceUsed -ge 10MB) { '{0:F0} GB' -f ($_.DataSpaceUsed / 1MB) } elseif ($_.DataSpaceUsed -ge 1MB) { '{0:F1} GB' -f ($_.DataSpaceUsed / 1MB) } elseif ($_.DataSpaceUsed -ge 1KB) { '{0:F2} MB' -f ($_.DataSpaceUsed / 1KB) } else { '{0:F2} KB' -f $_.DataSpaceUsed }</ScriptBlock>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <!-- SMO IndexSpaceUsed property is expressed in KB -->
+                <ScriptBlock>if ($_.IndexSpaceUsed -ge 1GB) { '{0:F0} TB' -f ($_.IndexSpaceUsed / 1GB) } elseif ($_.IndexSpaceUsed -ge 10MB) { '{0:F0} GB' -f ($_.IndexSpaceUsed / 1MB) } elseif ($_.IndexSpaceUsed -ge 1MB) { '{0:F1} GB' -f ($_.IndexSpaceUsed / 1MB) } elseif ($_.IndexSpaceUsed -ge 1KB) { '{0:F2} MB' -f ($_.IndexSpaceUsed / 1KB) } else { '{0:F2} KB' -f $_.IndexSpaceUsed }</ScriptBlock>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <ScriptBlock>$_.CreateDate.ToString("g")</ScriptBlock>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>View</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Smo.View</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Schema</Label>
+            <Width>28</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>30</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Created</Label>
+            <Width>22</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <Wrap/>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Schema</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <ScriptBlock>$_.CreateDate.ToString("g")</ScriptBlock>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>StoredProcedure</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Smo.StoredProcedure</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Schema</Label>
+            <Width>28</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>30</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Created</Label>
+            <Width>22</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <Wrap/>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Schema</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <ScriptBlock>$_.CreateDate.ToString("g")</ScriptBlock>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>User</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Smo.User</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>30</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Login</Label>
+            <Width>28</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Created</Label>
+            <Width>22</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <Wrap/>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Login</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <ScriptBlock>$_.CreateDate.ToString("g")</ScriptBlock>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>Login</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Smo.Login</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>45</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Login Type</Label>
+            <Width>13</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Created</Label>
+            <Width>22</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <Wrap/>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>LoginType</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <ScriptBlock>$_.CreateDate.ToString("g")</ScriptBlock>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>ServerRole</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Smo.ServerRole</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>25</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Fixed Role</Label>
+            <Width>11</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Created</Label>
+            <Width>22</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Owner</Label>
+            <Width>25</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Modified</Label>
+            <Width>22</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <Wrap/>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>IsFixedRole</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <ScriptBlock>$_.DateCreated.ToString("g")</ScriptBlock>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Owner</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <ScriptBlock>$_.DateModified.ToString("g")</ScriptBlock>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+
+    <View>
+      <Name>Sequence</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Smo.Sequence</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Schema</Label>
+            <Width>28</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>25</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>CurrentValue</Label>
+            <Width>25</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+        
+          <TableColumnHeader>
+            <Label>IsExhausted</Label>
+            <Width>22</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          
+          <TableColumnHeader>
+            <Label>Created</Label>
+            <Width>22</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Owner</Label>
+            <Width>25</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Modified</Label>
+            <Width>22</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <Wrap/>
+            <TableColumnItems>
+
+
+              <TableColumnItem>
+                <PropertyName>Schema</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>CurrentValue</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>IsExhausted</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <ScriptBlock>$_.CreateDate.ToString("g")</ScriptBlock>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Owner</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <ScriptBlock>$_.DateLastModified.ToString("g")</ScriptBlock>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+<!--end sequence-->
+
+    <View>
+      <Name>Schema</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Smo.Schema</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>30</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Owner</Label>
+            <Width>28</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <Wrap/>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Owner</PropertyName>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>Index</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Smo.Index</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>40</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Space Used</Label>
+            <Width>10</Width>
+            <Alignment>right</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>File Group</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Index Type</Label>
+            <Width>25</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Compressed Partitions</Label>
+            <Width>11</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Indexed Columns</Label>
+            <Width>50</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <Wrap/>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <!-- SMO SpaceUsed property is expressed in KB -->
+                <ScriptBlock>if ($_.SpaceUsed -ge 1GB) { '{0:F0} TB' -f ($_.SpaceUsed / 1GB) } elseif ($_.SpaceUsed -ge 10MB) { '{0:F0} GB' -f ($_.SpaceUsed / 1MB) } elseif ($_.SpaceUsed -ge 1MB) { '{0:F1} GB' -f ($_.SpaceUsed / 1MB) } elseif ($_.SpaceUsed -ge 1KB) { '{0:F2} MB' -f ($_.SpaceUsed / 1KB) } else { '{0:F2} KB' -f $_.SpaceUsed }</ScriptBlock>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>FileGroup</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>IndexType</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>HasCompressedPartitions</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>IndexedColumns</PropertyName>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>Statistic</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Smo.Statistic</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>50</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Last Updated</Label>
+            <Width>22</Width>
+            <Alignment>right</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Is From Index Creation</Label>
+            <Width>14</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Statistic Columns</Label>
+            <Width>40</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Filter Definition</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <Wrap/>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <ScriptBlock>$_.LastUpdated.ToString("g")</ScriptBlock>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>IsFromIndexCreation</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>StatisticColumns</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>FilterDefinition</PropertyName>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>PhysicalPartition</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Smo.PhysicalPartition</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>FileGroup Name</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Partition #</Label>
+            <Width>12</Width>
+            <Alignment>right</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Row Count</Label>
+            <Width>10</Width>
+            <Alignment>right</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Right Boundary Value</Label>
+            <Width>20</Width>
+            <Alignment>right</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Range Type</Label>
+            <Width>10</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Data Compression</Label>
+            <Width>16</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <Wrap/>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>FileGroupName</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>PartitionNumber</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>RowCount</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>RightBoundaryValue</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>RangeType</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>DataCompression</PropertyName>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>ForeignKey</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Smo.ForeignKey</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>30</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Columns</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Referenced Table</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Referenced Key</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Created</Label>
+            <Width>19</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Modified</Label>
+            <Width>19</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Checked</Label>
+            <Width>7</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Enabled</Label>
+            <Width>7</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <Wrap/>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Columns</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>ReferencedTable</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>ReferencedKey</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <ScriptBlock>$_.CreateDate.ToString("g")</ScriptBlock>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <ScriptBlock>$_.DateLastModified.ToString("g")</ScriptBlock>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>IsChecked</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>IsEnabled</PropertyName>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>Trigger</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Smo.Trigger</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>30</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Created</Label>
+            <Width>22</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <Wrap/>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <ScriptBlock>$_.CreateDate.ToString("g")</ScriptBlock>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>UserDefinedFunction</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Smo.UserDefinedFunction</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Schema</Label>
+            <Width>28</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>30</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Created</Label>
+            <Width>22</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <Wrap/>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Schema</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <ScriptBlock>$_.CreateDate.ToString("g")</ScriptBlock>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+
+    <View>
+      <Name>SystemMessage</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Smo.SystemMessage</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>ID</Label>
+            <Width>5</Width>
+            <Alignment>right</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Language</Label>
+            <Width>15</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Text</Label>
+            <Width>58</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <Wrap/>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>ID</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Language</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Text</PropertyName>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>UserDefinedMessage</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Smo.UserDefinedMessage</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>ID</Label>
+            <Width>5</Width>
+            <Alignment>right</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Language</Label>
+            <Width>15</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Text</Label>
+            <Width>58</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <Wrap/>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>ID</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Language</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Text</PropertyName>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>AgentJob</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Smo.Agent.Job</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>25</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>          
+          <TableColumnHeader>
+            <Label>Owner</Label>
+            <Width>20</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Category</Label>
+            <Width>25</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Enabled</Label>
+            <Width>10</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>CurrentRunStatus</Label>
+            <Width>20</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>DateCreated</Label>
+            <Width>25</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>LastModified</Label>
+            <Width>25</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>LastRunDuration</Label>
+            <Width>30</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>OwnerLoginName</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Category</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>IsEnabled</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>CurrentRunStatus</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>DateCreated</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>DateLastModified</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>LastRunDuration</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>AgentJobStep</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Smo.Agent.JobStep</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>20</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>OnSuccessAction</Label>
+            <Width>25</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>OnFailAction</Label>
+            <Width>25</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>LastRunDate</Label>
+            <Width>25</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>LastRunDuration</Label>
+            <Width>25</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>ID</Label>
+            <Width>30</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>OnSuccessAction</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>OnFailAction</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>LastRunDate</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>LastRunDurationAsTimeSpan</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>ID</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    
+     <View>
+      <Name>AgentSchedule</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Smo.Agent.JobSchedule</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>30</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Jobs</Label>
+            <Width>5</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Enabled</Label>
+            <Width>10</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>DateCreated</Label>
+            <Width>25</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>ActiveStartDate</Label>
+            <Width>25</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>ActiveEndDate</Label>
+            <Width>25</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>ID</Label>
+            <Width>15</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>JobCount</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>IsEnabled</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>DateCreated</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>ActiveStartDate</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>ActiveEndDate</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>ID</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    
+    <!-- DMF -->
+
+    <View>
+      <Name>PolicyStore</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Dmf.PolicyStore</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Instance Name</Label>
+            <Width>80</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>DisplayName</PropertyName>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>Policy</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Dmf.Policy</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>30</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Category</Label>
+            <Width>17</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Created</Label>
+            <Width>22</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Enabled</Label>
+            <Width>7</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>PolicyCategory</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <ScriptBlock>$_.CreateDate.ToString("g")</ScriptBlock>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Enabled</PropertyName>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>EvaluationHistory</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Dmf.EvaluationHistory</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>ID</Label>
+            <Width>5</Width>
+            <Alignment>right</Alignment>
+          </TableColumnHeader>
+          
+          <TableColumnHeader>
+            <Label>Policy Name</Label>
+            <Width>30</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Result</Label>
+            <Width>6</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Start Date</Label>
+            <Width>18</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>End Date</Label>
+            <Width>18</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Messages</Label>
+            <Width>22</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <Wrap/>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>ID</PropertyName>
+              </TableColumnItem>
+              
+              <TableColumnItem>
+                <PropertyName>PolicyName</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Result</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <ScriptBlock>$_.StartDate.ToString("g")</ScriptBlock>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <ScriptBlock>$_.EndDate.ToString("g")</ScriptBlock>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Exception</PropertyName>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>ConnectionEvaluationHistory</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Dmf.ConnectionEvaluationHistory</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>ID</Label>
+            <Width>5</Width>
+            <Alignment>right</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Server Instance</Label>
+            <Width>30</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Result</Label>
+            <Width>6</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Messages</Label>
+            <Width>22</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <Wrap/>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>ID</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>ServerInstance</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Result</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Exception</PropertyName>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    
+    <View>
+      <Name>EvaluationDetail</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Dmf.EvaluationDetail</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>ID</Label>
+            <Width>5</Width>
+            <Alignment>right</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Result</Label>
+            <Width>6</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Target Query Expression</Label>
+            <Width>40</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Messages</Label>
+            <Width>22</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <Wrap/>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>ID</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Result</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>TargetQueryExpression</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <ScriptBlock>Exception</ScriptBlock>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>TargetSet</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Dmf.TargetSet</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>ID</Label>
+            <Width>5</Width>
+            <Alignment>right</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Target Type</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Target Type Skeleton</Label>
+            <Width>40</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Enabled</Label>
+            <Width>5</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>ID</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>TargetType</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>TargetTypeSkeleton</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Enabled</PropertyName>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    
+    <View>
+      <Name>TargetSetLevel</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Dmf.TargetSetLevel</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>ID</Label>
+            <Width>5</Width>
+            <Alignment>right</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Condition</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Target Type Skeleton</Label>
+            <Width>40</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Level Name</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>ID</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Condition</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>TargetTypeSkeleton</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>LevelName</PropertyName>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+
+    <View>
+      <Name>Condition</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Dmf.Condition</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>30</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Facet</Label>
+            <Width>25</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Created</Label>
+            <Width>22</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Facet</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <ScriptBlock>$_.CreateDate.ToString("g")</ScriptBlock>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+
+    <View>
+      <Name>PolicyCategory</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Dmf.PolicyCategory</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>ID</Label>
+            <Width>5</Width>
+            <Alignment>right</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>30</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Mandate Database Subscriptions</Label>
+            <Width>30</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>ID</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>MandateDatabaseSubscriptions</PropertyName>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>PolicyCategorySubscription</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Dmf.PolicyCategorySubscription</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>ID</Label>
+            <Width>5</Width>
+            <Alignment>right</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Policy Category</Label>
+            <Width>23</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Target</Label>
+            <Width>23</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Target Type</Label>
+            <Width>23</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>ID</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>PolicyCategory</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Target</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>TargetType</PropertyName>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+
+    <View>
+      <Name>ObjectSet</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Dmf.ObjectSet</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>30</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Facet</Label>
+            <Width>25</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Facet</PropertyName>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <!-- SQL Server Registrations -->
+
+    <View>
+      <Name>children</Name>
+      <ViewSelectedBy>
+        <SelectionSetName>RegisteredServerTypes</SelectionSetName>
+      </ViewSelectedBy>
+      <GroupBy>
+        <PropertyName>PSParentPath</PropertyName>
+        <CustomControlName>RegisteredServerTypes-GroupingFormat</CustomControlName>
+      </GroupBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Mode</Label>
+            <Width>4</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>40</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <Wrap/>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Mode</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>DisplayName</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
+      <Name>children</Name>
+      <ViewSelectedBy>
+        <SelectionSetName>RegisteredServerTypes</SelectionSetName>
+      </ViewSelectedBy>
+      <GroupBy>
+        <PropertyName>PSParentPath</PropertyName>
+        <CustomControlName>RegisteredServerTypes-GroupingFormat</CustomControlName>
+      </GroupBy>
+      <ListControl>
+        <ListEntries>
+          <ListEntry>
+            <EntrySelectedBy>
+              <TypeName>Microsoft.SqlServer.Management.RegisteredServers.ServerGroup</TypeName>
+            </EntrySelectedBy>
+            <ListItems>
+              <ListItem>
+                <PropertyName>DisplayName</PropertyName>
+              </ListItem>
+            </ListItems>
+          </ListEntry>
+          <ListEntry>
+            <ListItems>
+              <ListItem>
+                <PropertyName>DisplayName</PropertyName>
+              </ListItem>
+            </ListItems>
+          </ListEntry>
+        </ListEntries>
+      </ListControl>
+    </View>
+
+    <!-- Data Collector -->
+
+
+   <View>
+      <Name>CollectionSet</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Collector.CollectionSet</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>30</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>IsRunning</Label>
+            <Width>10</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Description</Label>
+            <Width>36</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <Wrap/>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>IsRunning</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Description</PropertyName>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+   <View>
+      <Name>CollectionItem</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Collector.CollectionItem</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>30</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Collector Type</Label>
+            <Width>27</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Collection Frequency</Label>
+            <Width>21</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>TypeName</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>CollectionFrequency</PropertyName>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+
+    <!-- SQL Server Provider Types -->
+
+    <View>
+      <Name>SqlServerProviderExtension</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.PowerShell.Extensions.SqlServerProviderExtension</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>15</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Root</Label>
+            <Width>30</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Description</Label>
+            <Width>40</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <Wrap/>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Root</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Description</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>Machine</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.PowerShell.Extensions.Machine</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>MachineName</Label>
+            <Width>32</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <Wrap/>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>MachineName</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+
+    <View>
+      <Name>CollectionInfo</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Sdk.Sfc.CollectionInfo</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>60</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <Wrap/>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>DisplayName</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <!-- Extended Events -->
+    <View>
+      <Name>XEStore</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.XEvent.XEStore</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Instance Name</Label>
+            <Width>30</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Total Session Count</Label>
+            <Width>30</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Running Session Count</Label>
+            <Width>30</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>DisplayName</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <ScriptBlock>$_.Sessions.Count</ScriptBlock>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>RunningSessionCount</PropertyName>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>Session</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.XEvent.Session</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>AutoStartUp</Label>
+            <Width>12</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>IsRunning</Label>
+            <Width>10</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Start Time</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>State</Label>
+            <Width>12</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Targets</Label>
+            <Width>45</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>MaxMemory</Label>
+            <Width>10</Width>
+            <Alignment>right</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>MaxEventSize</Label>
+            <Width>12</Width>
+            <Alignment>right</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Events</Label>
+            <Width>85</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>AutoStart</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>IsRunning</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <ScriptBlock>$_.StartTime.ToString("g")</ScriptBlock>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>State</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Targets</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>MaxMemory</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>MaxEventSize</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Events</PropertyName>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>Event</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.XEvent.Event</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>30</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Package Name</Label>
+            <Width>30</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Predicate</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Description</Label>
+            <Width>40</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>PackageName</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>PredicateExpression</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Description</PropertyName>
+              </TableColumnItem>
+              
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>Target</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.XEvent.Target</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>30</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Package Name</Label>
+            <Width>30</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Description</Label>
+            <Width>40</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>PackageName</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Description</PropertyName>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>EventField</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.XEvent.EventField</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Value</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Description</Label>
+            <Width>40</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Value</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Description</PropertyName>
+              </TableColumnItem>
+              
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>TargetField</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.XEvent.TargetField</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Value</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Description</Label>
+            <Width>40</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Value</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Description</PropertyName>
+              </TableColumnItem>
+              
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    
+    <View>
+      <Name>Action</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.XEvent.Action</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>30</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Package Name</Label>
+            <Width>30</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Description</Label>
+            <Width>40</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>PackageName</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Description</PropertyName>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    
+    <View>
+      <Name>Package</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.XEvent.Package</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>ID</Label>
+            <Width>40</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+
+          <TableColumnHeader>
+            <Label>Module ID</Label>
+            <Width>40</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+
+          <TableColumnHeader>
+            <Label>Description</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>ID</PropertyName>
+              </TableColumnItem>
+             
+              <TableColumnItem>
+                <PropertyName>ModuleID</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Description</PropertyName>
+              </TableColumnItem>
+              
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>EventInfo</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.XEvent.EventInfo</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>40</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Capabilities</Label>
+            <Width>40</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Description</Label>
+            <Width>40</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>CapabilitiesDesc</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Description</PropertyName>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>EventColumnInfo</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.XEvent.EventColumnInfo</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Type</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Value</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Description</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>TypeName</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Value</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Description</PropertyName>
+              </TableColumnItem>
+              
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>DataEventColumnInfo</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.XEvent.DataEventColumnInfo</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Type</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Description</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>TypeName</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Description</PropertyName>
+              </TableColumnItem>
+              
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>ReadOnlyEventColumnInfo</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.XEvent.ReadOnlyEventColumnInfo</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Type</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Value</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          
+          <TableColumnHeader>
+            <Label>Description</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>TypeName</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Value</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Description</PropertyName>
+              </TableColumnItem>
+              
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>ActionInfo</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.XEvent.ActionInfo</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Action Name</Label>
+            <Width>40</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Type</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Description</Label>
+            <Width>40</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>TypeName</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Description</PropertyName>
+              </TableColumnItem>
+              
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>TargetInfo</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.XEvent.TargetInfo</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>40</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Description</Label>
+            <Width>40</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Description</PropertyName>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>TargetColumnInfo</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.XEvent.TargetColumnInfo</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Type</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Value</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Description</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>TypeName</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Value</PropertyName>
+              </TableColumnItem>
+
+
+              <TableColumnItem>
+                <PropertyName>Description</PropertyName>
+              </TableColumnItem>
+              
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>TypeInfo</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.XEvent.TypeInfo</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Type Name</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Type Size</Label>
+            <Width>10</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Description</Label>
+            <Width>40</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Size</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Description</PropertyName>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>MapInfo</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.XEvent.MapInfo</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Description</Label>
+            <Width>40</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Description</PropertyName>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>MapValueInfo</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.XEvent.MapValueInfo</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Value</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Value</PropertyName>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    
+    <View>
+      <Name>PredSourceInfo</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.XEvent.PredSourceInfo</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Type</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Description</Label>
+            <Width>40</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>TypeName</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Description</PropertyName>
+              </TableColumnItem>
+              
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>PredCompareInfo</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.XEvent.PredCompareInfo</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Type</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          
+          <TableColumnHeader>
+            <Label>Description</Label>
+            <Width>40</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>TypeName</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Description</PropertyName>
+              </TableColumnItem>
+              
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <!-- Utility -->
+    <View>
+      <Name>Utility</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Utility.Utility</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Instance Name</Label>
+            <Width>80</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>DisplayName</PropertyName>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+   <View>
+      <Name>Computer</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Utility.Computer</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>30</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Clustered</Label>
+            <Width>27</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>IsClustered</PropertyName>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>Volume</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Utility.Volume</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Mount Point</Label>
+            <Width>12</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          
+          <TableColumnHeader>
+            <Label>Space Utilization %</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Total Space</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Total Space Used</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>MountPointLocation</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>TotalSpaceUtilization</PropertyName>
+              </TableColumnItem>
+              
+              <TableColumnItem>
+                <PropertyName>TotalSpace</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>TotalSpaceUsed</PropertyName>
+              </TableColumnItem>
+              
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>Processor</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Utility.Processor</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Processor Name</Label>
+            <Width>16</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Architecture</Label>
+            <Width>18</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Clock Speed</Label>
+            <Width>20</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Architecture</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>ClockSpeed</PropertyName>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    
+    <View>
+      <Name>ImportedObject</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Utility.ImportedObject</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>30</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+          <TableColumnHeader>
+            <Label>Version</Label>
+            <Width>27</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+
+              <TableColumnItem>
+                <PropertyName>Version</PropertyName>
+              </TableColumnItem>
+
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+  <!-- DAC -->
+
+  <View>
+      <Name>DAC</Name>
+      <ViewSelectedBy>
+          <TypeName>Microsoft.SqlServer.Management.DAC.DacStore</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+          <TableHeaders>
+
+              <TableColumnHeader>
+                  <Label>Name</Label>
+                  <Width>80</Width>
+                  <Alignment>left</Alignment>
+              </TableColumnHeader>
+
+          </TableHeaders>
+          <TableRowEntries>
+              <TableRowEntry>
+                  <TableColumnItems>
+
+                      <TableColumnItem>
+                          <PropertyName>Name</PropertyName>
+                      </TableColumnItem>
+
+                  </TableColumnItems>
+              </TableRowEntry>
+          </TableRowEntries>
+      </TableControl>
+  </View>
+  <View>
+    <Name>DacPackage</Name>
+    <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.DAC.DacInstance</TypeName>
+    </ViewSelectedBy>
+    <TableControl>
+        <TableHeaders>
+
+            <TableColumnHeader>
+                <Label>Instance Name</Label>
+                <Width>30</Width>
+                <Alignment>left</Alignment>
+            </TableColumnHeader>
+
+            <TableColumnHeader>
+                <Label>Application Name</Label>
+                <Width>30</Width>
+                <Alignment>left</Alignment>
+            </TableColumnHeader>
+
+            <TableColumnHeader>
+                <Label>Application Version</Label>
+                <Width>27</Width>
+                <Alignment>left</Alignment>
+            </TableColumnHeader>
+
+        </TableHeaders>
+        <TableRowEntries>
+            <TableRowEntry>
+                <TableColumnItems>
+
+                    <TableColumnItem>
+                        <PropertyName>Name</PropertyName>
+                    </TableColumnItem>
+
+                    <TableColumnItem>
+                        <ScriptBlock>$_.Type.Name</ScriptBlock>
+                    </TableColumnItem>
+
+                    <TableColumnItem>
+                        <ScriptBlock>$_.Type.Version</ScriptBlock>
+                    </TableColumnItem>
+
+                </TableColumnItems>
+            </TableRowEntry>
+        </TableRowEntries>
+    </TableControl>
+  </View>
+
+  <!-- AlwaysOn -->
+  <View>
+    <Name>AvailabilityDatabase</Name>
+    <ViewSelectedBy>
+      <TypeName>Microsoft.SqlServer.Management.Smo.AvailabilityDatabase</TypeName>
+    </ViewSelectedBy>
+    <TableControl>
+      <TableHeaders>
+        <TableColumnHeader>
+          <Label>Name</Label>
+          <Width>20</Width>
+        </TableColumnHeader>
+        <TableColumnHeader>
+          <Label>SynchronizationState</Label>
+          <Width>20</Width>
+        </TableColumnHeader>
+        <TableColumnHeader>
+          <Label>IsSuspended</Label>
+          <Width>11</Width>
+        </TableColumnHeader>
+        <TableColumnHeader>
+          <Label>IsJoined</Label>
+          <Width>8</Width>
+        </TableColumnHeader>
+      </TableHeaders>
+      <TableRowEntries>
+        <TableRowEntry>
+          <TableColumnItems>
+            <TableColumnItem>
+              <PropertyName>Name</PropertyName>
+            </TableColumnItem>
+            <TableColumnItem>
+              <PropertyName>SynchronizationState</PropertyName>
+            </TableColumnItem>
+            <TableColumnItem>
+              <PropertyName>IsSuspended</PropertyName>
+            </TableColumnItem>
+            <TableColumnItem>
+              <ScriptBlock>$_.IsJoined -eq 1</ScriptBlock>
+            </TableColumnItem>
+          </TableColumnItems>
+        </TableRowEntry>
+      </TableRowEntries>
+    </TableControl>
+  </View>
+
+  <View>
+    <Name>AvailabilityGroup</Name>
+    <ViewSelectedBy>
+      <TypeName>Microsoft.SqlServer.Management.Smo.AvailabilityGroup</TypeName>
+    </ViewSelectedBy>
+    <TableControl>
+      <TableHeaders>
+        <TableColumnHeader>
+          <Label>Name</Label>
+          <Width>20</Width>
+        </TableColumnHeader>
+        <TableColumnHeader>
+          <Label>PrimaryReplicaServerName</Label>
+          <Width>32</Width>
+        </TableColumnHeader>
+      </TableHeaders>
+      <TableRowEntries>
+        <TableRowEntry>
+          <TableColumnItems>
+            <TableColumnItem>
+              <PropertyName>Name</PropertyName>
+            </TableColumnItem>
+            <TableColumnItem>
+              <PropertyName>PrimaryReplicaServerName</PropertyName>
+            </TableColumnItem>
+          </TableColumnItems>
+        </TableRowEntry>
+      </TableRowEntries>
+    </TableControl>
+  </View>
+
+  <View>
+    <Name>AvailabilityReplica</Name>
+    <ViewSelectedBy>
+      <TypeName>Microsoft.SqlServer.Management.Smo.AvailabilityReplica</TypeName>
+    </ViewSelectedBy>
+    <TableControl>
+      <TableHeaders>
+        <TableColumnHeader>
+          <Label>Name</Label>
+          <Width>20</Width>
+        </TableColumnHeader>
+        <TableColumnHeader>
+          <Label>Role</Label>
+          <Width>9</Width>
+        </TableColumnHeader>
+        <TableColumnHeader>
+          <Label>ConnectionState</Label>
+          <Width>15</Width>
+        </TableColumnHeader>
+        <TableColumnHeader>
+          <Label>RollupSynchronizationState</Label>
+          <Width>26</Width>
+        </TableColumnHeader>
+      </TableHeaders>
+      <TableRowEntries>
+        <TableRowEntry>
+          <TableColumnItems>
+            <TableColumnItem>
+              <PropertyName>Name</PropertyName>
+            </TableColumnItem>
+            <TableColumnItem>
+              <PropertyName>Role</PropertyName>
+            </TableColumnItem>
+            <TableColumnItem>
+              <PropertyName>ConnectionState</PropertyName>
+            </TableColumnItem>
+            <TableColumnItem>
+              <PropertyName>RollupSynchronizationState</PropertyName>
+            </TableColumnItem>
+          </TableColumnItems>
+        </TableRowEntry>
+      </TableRowEntries>
+    </TableControl>
+  </View>
+
+  <View>
+    <Name>DatabaseReplicaState</Name>
+    <ViewSelectedBy>
+      <TypeName>Microsoft.SqlServer.Management.Smo.DatabaseReplicaState</TypeName>
+    </ViewSelectedBy>
+    <TableControl>
+      <TableHeaders>
+        <TableColumnHeader>
+          <Label>AvailabilityReplicaServerName</Label>
+          <Width>29</Width>
+        </TableColumnHeader>
+        <TableColumnHeader>
+          <Label>AvailabilityDatabaseName</Label>
+          <Width>24</Width>
+        </TableColumnHeader>
+        <TableColumnHeader>
+          <Label>SynchronizationState</Label>
+          <Width>21</Width>
+        </TableColumnHeader>
+        <TableColumnHeader>
+          <Label>EstimatedRecoveryTime</Label>
+          <Width>24</Width>
+        </TableColumnHeader>
+        <TableColumnHeader>
+          <Label>SynchronizationPerformance</Label>
+          <Width>26</Width>
+        </TableColumnHeader>
+        <TableColumnHeader>
+          <Label>LogSendQueueSize</Label>
+          <Width>16</Width>
+        </TableColumnHeader>
+      </TableHeaders>
+      <TableRowEntries>
+        <TableRowEntry>
+          <TableColumnItems>
+            <TableColumnItem>
+              <PropertyName>AvailabilityReplicaServerName</PropertyName>
+            </TableColumnItem>
+            <TableColumnItem>
+              <PropertyName>AvailabilityDatabaseName</PropertyName>
+            </TableColumnItem>
+            <TableColumnItem>
+              <PropertyName>SynchronizationState</PropertyName>
+            </TableColumnItem>
+            <TableColumnItem>
+              <PropertyName>EstimatedRecoveryTime</PropertyName>
+            </TableColumnItem>
+            <TableColumnItem>
+              <PropertyName>SynchronizationPerformance</PropertyName>
+            </TableColumnItem>
+            <TableColumnItem>
+              <PropertyName>LogSendQueueSize</PropertyName>
+            </TableColumnItem>
+          </TableColumnItems>
+        </TableRowEntry>
+      </TableRowEntries>
+    </TableControl>
+  </View>
+
+  <View>
+    <Name>DatabaseReplicaHealthState</Name>
+    <ViewSelectedBy>
+      <TypeName>Microsoft.SqlServer.Management.PowerShell.Hadr.DatabaseReplicaHealthState</TypeName>
+    </ViewSelectedBy>
+    <TableControl>
+      <TableHeaders>
+        <TableColumnHeader>
+          <Label>HealthState</Label>
+          <Width>22</Width>
+        </TableColumnHeader>
+        <TableColumnHeader>
+          <Label>AvailabilityGroup</Label>
+          <Width>20</Width>
+        </TableColumnHeader>
+        <TableColumnHeader>
+          <Label>AvailabilityReplica</Label>
+          <Width>20</Width>
+        </TableColumnHeader>
+        <TableColumnHeader>
+          <Label>Name</Label>
+        </TableColumnHeader>
+      </TableHeaders>
+      <TableRowEntries>
+        <TableRowEntry>
+          <TableColumnItems>
+            <TableColumnItem>
+              <PropertyName>HealthState</PropertyName>
+            </TableColumnItem>
+            <TableColumnItem>
+              <PropertyName>AvailabilityGroup</PropertyName>
+            </TableColumnItem>
+            <TableColumnItem>
+              <PropertyName>AvailabilityReplica</PropertyName>
+            </TableColumnItem>
+            <TableColumnItem>
+              <PropertyName>Name</PropertyName>
+            </TableColumnItem>
+          </TableColumnItems>
+        </TableRowEntry>
+      </TableRowEntries>
+    </TableControl>
+  </View>
+
+  <View>
+    <Name>AvailabilityReplicaHealthState</Name>
+    <ViewSelectedBy>
+      <TypeName>Microsoft.SqlServer.Management.PowerShell.Hadr.AvailabilityReplicaHealthState</TypeName>
+    </ViewSelectedBy>
+    <TableControl>
+      <TableHeaders>
+        <TableColumnHeader>
+          <Label>HealthState</Label>
+          <Width>22</Width>
+        </TableColumnHeader>
+        <TableColumnHeader>
+          <Label>AvailabilityGroup</Label>
+          <Width>20</Width>
+        </TableColumnHeader>
+        <TableColumnHeader>
+          <Label>Name</Label>
+        </TableColumnHeader>
+      </TableHeaders>
+      <TableRowEntries>
+        <TableRowEntry>
+          <TableColumnItems>
+            <TableColumnItem>
+              <PropertyName>HealthState</PropertyName>
+            </TableColumnItem>
+            <TableColumnItem>
+              <PropertyName>AvailabilityGroup</PropertyName>
+            </TableColumnItem>
+            <TableColumnItem>
+              <PropertyName>Name</PropertyName>
+            </TableColumnItem>
+          </TableColumnItems>
+        </TableRowEntry>
+      </TableRowEntries>
+    </TableControl>
+  </View>
+
+  <View>
+    <Name>AvailabilityGroupHealthState</Name>
+    <ViewSelectedBy>
+      <TypeName>Microsoft.SqlServer.Management.PowerShell.Hadr.AvailabilityGroupHealthState</TypeName>
+    </ViewSelectedBy>
+    <TableControl>
+      <TableHeaders>
+        <TableColumnHeader>
+          <Label>HealthState</Label>
+          <Width>22</Width>
+        </TableColumnHeader>
+        <TableColumnHeader>
+          <Label>Name</Label>
+        </TableColumnHeader>
+      </TableHeaders>
+      <TableRowEntries>
+        <TableRowEntry>
+          <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>HealthState</PropertyName>           
+              </TableColumnItem>
+            <TableColumnItem>
+              <PropertyName>Name</PropertyName>
+            </TableColumnItem>
+          </TableColumnItems>
+        </TableRowEntry>
+      </TableRowEntries>
+    </TableControl>
+  </View>
+
+  <View>
+    <Name>PolicyEvaluationDetails</Name>
+    <ViewSelectedBy>
+      <TypeName>Microsoft.SqlServer.Management.PowerShell.PolicyEvaluationDetails</TypeName>
+    </ViewSelectedBy>
+    <TableControl>
+      <TableHeaders>
+        <TableColumnHeader>
+          <Label>Result</Label>
+          <Width>6</Width>
+        </TableColumnHeader>
+        <TableColumnHeader>
+          <Label>TargetObject</Label>
+          <Width>20</Width>
+        </TableColumnHeader>
+        <TableColumnHeader>
+          <Label>Category</Label>
+          <Width>35</Width>
+        </TableColumnHeader>
+        <TableColumnHeader>
+          <Label>Name</Label>
+        </TableColumnHeader>
+      </TableHeaders>
+      <TableRowEntries>
+        <TableRowEntry>
+          <TableColumnItems>
+            <TableColumnItem>
+              <PropertyName>Result</PropertyName>
+            </TableColumnItem>
+            <TableColumnItem>
+              <PropertyName>TargetObject</PropertyName>
+            </TableColumnItem>
+            <TableColumnItem>
+              <PropertyName>Category</PropertyName>
+            </TableColumnItem>
+            <TableColumnItem>
+              <PropertyName>Name</PropertyName>
+            </TableColumnItem>
+          </TableColumnItems>
+        </TableRowEntry>
+      </TableRowEntries>
+    </TableControl>
+  </View>
+
+    <View>
+      <Name>AvailabilityGroupListener</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Smo.AvailabilityGroupListener</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>20</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>PortNumber</Label>
+            <Width>15</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>ClusterIPConfiguration</Label>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <wrap />
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>PortNumber</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>ClusterIPConfiguration</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>AvailabilityGroupListenerIPAddress</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.SqlServer.Management.Smo.AvailabilityGroupListenerIPAddress</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>IsDhcp</Label>
+            <Width>6</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>SubnetMask</Label>
+            <Width>20</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>IPAddress</Label>
+            <Width>40</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>State</Label>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>IsDHCP</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>SubnetMask</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>IPAddress</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>IPAddressState</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    
+  <!-- Analysis Services Provider - SQLAS -->
+
+    <View>
+      <Name>AnalysisServerHost</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.AnalysisServices.PowerShell.Provider.AnalysisServerHost</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Host Name</Label>
+            <Width>80</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>DisplayName</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>MajorObjectCollection</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.AnalysisServices.MajorObjectCollection</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Collections</Label>
+            <Width>80</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>DisplayName</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>ASServer</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.AnalysisServices.Server</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Instance Name</Label>
+            <Width>80</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <!-- DisplayName may not be available when servers are retrieved using AnalysisServerHost.AnalysisServers property -->
+                <ScriptBlock>
+                  if ([string]::IsNullOrEmpty($_.DisplayName)) { $_.Name }
+                  else { $_.DisplayName }
+                </ScriptBlock>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>ASDatabase</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.AnalysisServices.Database</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>40</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>State</Label>
+            <Width>20</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Read-Write Mode</Label>
+            <Width>20</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>State</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>ReadWriteMode</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>Cube</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.AnalysisServices.Cube</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>25</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>State</Label>
+            <Width>18</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Processing Mode</Label>
+            <Width>16</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Last Processed On</Label>
+            <Width>17</Width>
+            <Alignment>Right</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>State</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>ProcessingMode</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>$_.LastProcessed.ToString("g")</ScriptBlock>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>MeasureGroup</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.AnalysisServices.MeasureGroup</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>25</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>State</Label>
+            <Width>18</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Type</Label>
+            <Width>18</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Processing Mode</Label>
+            <Width>16</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Last Processed</Label>
+            <Width>20</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>State</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Type</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>ProcessingMode</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>$_.LastProcessed.ToString("g")</ScriptBlock>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>AggregateDesign</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.AnalysisServices.AggregationDesign</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>60</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Estimated Rows</Label>
+            <Width>20</Width>
+            <Alignment>Right</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>EstimatedRows</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>Partition</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.AnalysisServices.Partition</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>25</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Aggregation Design ID</Label>
+            <Width>21</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Estimated Rows</Label>
+            <Width>14</Width>
+            <Alignment>Right</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Processing Mode</Label>
+            <Width>16</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Type</Label>
+            <Width>10</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Storage Mode</Label>
+            <Width>12</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>AggregationDesignID</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>EstimatedRows</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>ProcessingMode</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Type</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>CurrentStorageMode</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>Dimension</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.AnalysisServices.Dimension</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>35</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Processing Mode</Label>
+            <Width>16</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>State</Label>
+            <Width>18</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Current Storage Mode</Label>
+            <Width>20</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+           <TableColumnHeader>
+            <Label>Last Processed</Label>
+            <Width>20</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+       </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>ProcessingMode</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>State</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>CurrentStorageMode</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>$_.LastProcessed.ToString("g")</ScriptBlock>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>DimensionPermission</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.AnalysisServices.DimensionPermission</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>50</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Read Access</Label>
+            <Width>15</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Write Access</Label>
+            <Width>15</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Read</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Write</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>Assembly</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.AnalysisServices.Assembly</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>60</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Loaded State</Label>
+            <Width>15</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>IsLoaded</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>DatabasePermission</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.AnalysisServices.DatabasePermission</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>50</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Read Access</Label>
+            <Width>15</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Write Access</Label>
+            <Width>15</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Read</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Write</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>Role</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.AnalysisServices.Role</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>60</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Created On</Label>
+            <Width>20</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>$_.CreatedTimeStamp.ToSTring("g")</ScriptBlock>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>MiningStructure</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.AnalysisServices.MiningStructure</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>25</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Collation</Label>
+            <Width>20</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Cache Mode</Label>
+            <Width>20</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>State</Label>
+            <Width>18</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Collation</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>CacheMode</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>State</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>MiningModel</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.AnalysisServices.MiningModel</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>20</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>State</Label>
+            <Width>18</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Algorithm</Label>
+            <Width>28</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>AllowDrillThrough</Label>
+            <Width>17</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>State</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Algorithm</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>AllowDrillThrough</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>MiningModelPermission</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.AnalysisServices.MiningModelPermission</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>50</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Read Access</Label>
+            <Width>15</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Write Access</Label>
+            <Width>15</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Read</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Write</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>MiningStructurePermission</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.AnalysisServices.MiningStructurePermission</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>50</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Read Access</Label>
+            <Width>15</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Write Access</Label>
+            <Width>15</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Read</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Write</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>Trace</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.AnalysisServices.Trace</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>25</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Log File Name</Label>
+            <Width>25</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Log File Size</Label>
+            <Width>13</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Auto Restart</Label>
+            <Width>12</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <Wrap/>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>LogFileName</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>LogFileSize</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>AutoRestart</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>MdxScript</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.AnalysisServices.MdxScript</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>40</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Default Script</Label>
+            <Width>17</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Created Timestamp</Label>
+            <Width>20</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>DefaultScript</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>$_.CreatedTimestamp.ToSTring("g")</ScriptBlock>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>Perspective</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.AnalysisServices.Perspective</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>25</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>KPIs</Label>
+            <Width>25</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Dimensions</Label>
+            <Width>25</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>MeasureGroups</Label>
+            <Width>25</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <Wrap/>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Kpis</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Dimensions</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>MeasureGroups</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>CubePermission</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.AnalysisServices.CubePermission</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>50</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Read Access</Label>
+            <Width>15</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Write Access</Label>
+            <Width>15</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Read</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Write</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>DataSource</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.AnalysisServices.DataSource</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>25</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Isolation</Label>
+            <Width>13</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Max Connections</Label>
+            <Width>15</Width>
+            <Alignment>Right</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Connection String</Label>
+            <Width>40</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <Wrap/>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Isolation</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>MaxActiveConnections</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>ConnectionString</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>DataSourcePermission</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.AnalysisServices.DataSourcePermission</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>50</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Read Access</Label>
+            <Width>15</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Write Access</Label>
+            <Width>15</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Read</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Write</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>DataSourceView</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.AnalysisServices.DataSourceView</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>40</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Primary Data Source</Label>
+            <Width>40</Width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>DataSource</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+  </ViewDefinitions>
+</Configuration>
+
+<!-- SIG # Begin signature block -->
+<!-- MIIkFwYJKoZIhvcNAQcCoIIkCDCCJAQCAQExDzANBglghkgBZQMEAgEFADB5Bgor -->
+<!-- BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG -->
+<!-- KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCDd57uIcIwrqyBt -->
+<!-- z62B+2vlYXG1YV4yLPb2Mb2XttmWL6CCDYIwggYAMIID6KADAgECAhMzAAAAww6b -->
+<!-- p9iy3PcsAAAAAADDMA0GCSqGSIb3DQEBCwUAMH4xCzAJBgNVBAYTAlVTMRMwEQYD -->
+<!-- VQQIEwpXYXNoaW5ndG9uMRAwDgYDVQQHEwdSZWRtb25kMR4wHAYDVQQKExVNaWNy -->
+<!-- b3NvZnQgQ29ycG9yYXRpb24xKDAmBgNVBAMTH01pY3Jvc29mdCBDb2RlIFNpZ25p -->
+<!-- bmcgUENBIDIwMTEwHhcNMTcwODExMjAyMDI0WhcNMTgwODExMjAyMDI0WjB0MQsw -->
+<!-- CQYDVQQGEwJVUzETMBEGA1UECBMKV2FzaGluZ3RvbjEQMA4GA1UEBxMHUmVkbW9u -->
+<!-- ZDEeMBwGA1UEChMVTWljcm9zb2Z0IENvcnBvcmF0aW9uMR4wHAYDVQQDExVNaWNy -->
+<!-- b3NvZnQgQ29ycG9yYXRpb24wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIB -->
+<!-- AQC7V9c40bEGf0ktqW2zY596urY6IVu0mK6N1KSBoMV1xSzvgkAqt4FTd/NjAQq8 -->
+<!-- zjeEA0BDV4JLzu0ftv2AbcnCkV0Fx9xWWQDhDOtX3v3xuJAnv3VK/HWycli2xUib -->
+<!-- M2IF0ZWUpb85Iq2NEk1GYtoyGc6qIlxWSLFvRclndmJdMIijLyjFH1Aq2YbbGhEl -->
+<!-- gcL09Wcu53kd9eIcdfROzMf8578LgEcp/8/NabEMC2DrZ+aEG5tN/W1HOsfZwWFh -->
+<!-- 8pUSoQ0HrmMh2PSZHP94VYHupXnoIIJfCtq1UxlUAVcNh5GNwnzxVIaA4WLbgnM+ -->
+<!-- Jl7wQBLSOdUmAw2FiDFfCguLAgMBAAGjggF/MIIBezAfBgNVHSUEGDAWBgorBgEE -->
+<!-- AYI3TAgBBggrBgEFBQcDAzAdBgNVHQ4EFgQUpxNdHyGJVegD7p4XNuryVIg1Ga8w -->
+<!-- UQYDVR0RBEowSKRGMEQxDDAKBgNVBAsTA0FPQzE0MDIGA1UEBRMrMjMwMDEyK2M4 -->
+<!-- MDRiNWVhLTQ5YjQtNDIzOC04MzYyLWQ4NTFmYTIyNTRmYzAfBgNVHSMEGDAWgBRI -->
+<!-- bmTlUAXTgqoXNzcitW2oynUClTBUBgNVHR8ETTBLMEmgR6BFhkNodHRwOi8vd3d3 -->
+<!-- Lm1pY3Jvc29mdC5jb20vcGtpb3BzL2NybC9NaWNDb2RTaWdQQ0EyMDExXzIwMTEt -->
+<!-- MDctMDguY3JsMGEGCCsGAQUFBwEBBFUwUzBRBggrBgEFBQcwAoZFaHR0cDovL3d3 -->
+<!-- dy5taWNyb3NvZnQuY29tL3BraW9wcy9jZXJ0cy9NaWNDb2RTaWdQQ0EyMDExXzIw -->
+<!-- MTEtMDctMDguY3J0MAwGA1UdEwEB/wQCMAAwDQYJKoZIhvcNAQELBQADggIBAE2X -->
+<!-- TzR+8XCTnOPVGkucEX5rJsSlJPTfRNQkurNqCImZmssx53Cb/xQdsAc5f+QwOxMi -->
+<!-- 3g7IlWe7bn74fJWkkII3k6aD00kCwaytWe+Rt6dmAA6iTCXU3OddBwLKKDRlOzmD -->
+<!-- rZUqjsqg6Ag6HP4+e0BJlE2OVCUK5bHHCu5xN8abXjb1p0JE+7yHsA3ANdkmh1// -->
+<!-- Z+8odPeKMAQRimfMSzVgaiHnw40Hg16bq51xHykmCRHU9YLT0jYHKa7okm2QfwDJ -->
+<!-- qFvu0ARl+6EOV1PM8piJ858Vk8gGxGNSYQJPV0gc9ft1Esq1+fTCaV+7oZ0NaYMn -->
+<!-- 64M+HWsxw+4O8cSEQ4fuMZwGADJ8tyCKuQgj6lawGNSyvRXsN+1k02sVAiPGijOH -->
+<!-- OtGbtsCWWSygAVOEAV/ye8F6sOzU2FL2X3WBRFkWOCdTu1DzXnHf99dR3DHVGmM1 -->
+<!-- Kpd+n2Y3X89VM++yyrwsI6pEHu77Z0i06ELDD4pRWKJGAmEmWhm/XJTpqEBw51sw -->
+<!-- THyA1FBnoqXuDus9tfHleR7h9VgZb7uJbXjiIFgl/+RIs+av8bJABBdGUNQMbJEU -->
+<!-- fe7K4vYm3hs7BGdRLg+kF/dC/z+RiTH4p7yz5TpS3Cozf0pkkWXYZRG222q3tGxS -->
+<!-- /L+LcRbELM5zmqDpXQjBRUWlKYbsATFtXnTGVjELMIIHejCCBWKgAwIBAgIKYQ6Q -->
+<!-- 0gAAAAAAAzANBgkqhkiG9w0BAQsFADCBiDELMAkGA1UEBhMCVVMxEzARBgNVBAgT -->
+<!-- Cldhc2hpbmd0b24xEDAOBgNVBAcTB1JlZG1vbmQxHjAcBgNVBAoTFU1pY3Jvc29m -->
+<!-- dCBDb3Jwb3JhdGlvbjEyMDAGA1UEAxMpTWljcm9zb2Z0IFJvb3QgQ2VydGlmaWNh -->
+<!-- dGUgQXV0aG9yaXR5IDIwMTEwHhcNMTEwNzA4MjA1OTA5WhcNMjYwNzA4MjEwOTA5 -->
+<!-- WjB+MQswCQYDVQQGEwJVUzETMBEGA1UECBMKV2FzaGluZ3RvbjEQMA4GA1UEBxMH -->
+<!-- UmVkbW9uZDEeMBwGA1UEChMVTWljcm9zb2Z0IENvcnBvcmF0aW9uMSgwJgYDVQQD -->
+<!-- Ex9NaWNyb3NvZnQgQ29kZSBTaWduaW5nIFBDQSAyMDExMIICIjANBgkqhkiG9w0B -->
+<!-- AQEFAAOCAg8AMIICCgKCAgEAq/D6chAcLq3YbqqCEE00uvK2WCGfQhsqa+laUKq4 -->
+<!-- BjgaBEm6f8MMHt03a8YS2AvwOMKZBrDIOdUBFDFC04kNeWSHfpRgJGyvnkmc6Whe -->
+<!-- 0t+bU7IKLMOv2akrrnoJr9eWWcpgGgXpZnboMlImEi/nqwhQz7NEt13YxC4Ddato -->
+<!-- 88tt8zpcoRb0RrrgOGSsbmQ1eKagYw8t00CT+OPeBw3VXHmlSSnnDb6gE3e+lD3v -->
+<!-- ++MrWhAfTVYoonpy4BI6t0le2O3tQ5GD2Xuye4Yb2T6xjF3oiU+EGvKhL1nkkDst -->
+<!-- rjNYxbc+/jLTswM9sbKvkjh+0p2ALPVOVpEhNSXDOW5kf1O6nA+tGSOEy/S6A4aN -->
+<!-- 91/w0FK/jJSHvMAhdCVfGCi2zCcoOCWYOUo2z3yxkq4cI6epZuxhH2rhKEmdX4ji -->
+<!-- JV3TIUs+UsS1Vz8kA/DRelsv1SPjcF0PUUZ3s/gA4bysAoJf28AVs70b1FVL5zmh -->
+<!-- D+kjSbwYuER8ReTBw3J64HLnJN+/RpnF78IcV9uDjexNSTCnq47f7Fufr/zdsGbi -->
+<!-- wZeBe+3W7UvnSSmnEyimp31ngOaKYnhfsi+E11ecXL93KCjx7W3DKI8sj0A3T8Hh -->
+<!-- hUSJxAlMxdSlQy90lfdu+HggWCwTXWCVmj5PM4TasIgX3p5O9JawvEagbJjS4NaI -->
+<!-- jAsCAwEAAaOCAe0wggHpMBAGCSsGAQQBgjcVAQQDAgEAMB0GA1UdDgQWBBRIbmTl -->
+<!-- UAXTgqoXNzcitW2oynUClTAZBgkrBgEEAYI3FAIEDB4KAFMAdQBiAEMAQTALBgNV -->
+<!-- HQ8EBAMCAYYwDwYDVR0TAQH/BAUwAwEB/zAfBgNVHSMEGDAWgBRyLToCMZBDuRQF -->
+<!-- TuHqp8cx0SOJNDBaBgNVHR8EUzBRME+gTaBLhklodHRwOi8vY3JsLm1pY3Jvc29m -->
+<!-- dC5jb20vcGtpL2NybC9wcm9kdWN0cy9NaWNSb29DZXJBdXQyMDExXzIwMTFfMDNf -->
+<!-- MjIuY3JsMF4GCCsGAQUFBwEBBFIwUDBOBggrBgEFBQcwAoZCaHR0cDovL3d3dy5t -->
+<!-- aWNyb3NvZnQuY29tL3BraS9jZXJ0cy9NaWNSb29DZXJBdXQyMDExXzIwMTFfMDNf -->
+<!-- MjIuY3J0MIGfBgNVHSAEgZcwgZQwgZEGCSsGAQQBgjcuAzCBgzA/BggrBgEFBQcC -->
+<!-- ARYzaHR0cDovL3d3dy5taWNyb3NvZnQuY29tL3BraW9wcy9kb2NzL3ByaW1hcnlj -->
+<!-- cHMuaHRtMEAGCCsGAQUFBwICMDQeMiAdAEwAZQBnAGEAbABfAHAAbwBsAGkAYwB5 -->
+<!-- AF8AcwB0AGEAdABlAG0AZQBuAHQALiAdMA0GCSqGSIb3DQEBCwUAA4ICAQBn8oal -->
+<!-- mOBUeRou09h0ZyKbC5YR4WOSmUKWfdJ5DJDBZV8uLD74w3LRbYP+vj/oCso7v0ep -->
+<!-- o/Np22O/IjWll11lhJB9i0ZQVdgMknzSGksc8zxCi1LQsP1r4z4HLimb5j0bpdS1 -->
+<!-- HXeUOeLpZMlEPXh6I/MTfaaQdION9MsmAkYqwooQu6SpBQyb7Wj6aC6VoCo/KmtY -->
+<!-- SWMfCWluWpiW5IP0wI/zRive/DvQvTXvbiWu5a8n7dDd8w6vmSiXmE0OPQvyCInW -->
+<!-- H8MyGOLwxS3OW560STkKxgrCxq2u5bLZ2xWIUUVYODJxJxp/sfQn+N4sOiBpmLJZ -->
+<!-- iWhub6e3dMNABQamASooPoI/E01mC8CzTfXhj38cbxV9Rad25UAqZaPDXVJihsMd -->
+<!-- YzaXht/a8/jyFqGaJ+HNpZfQ7l1jQeNbB5yHPgZ3BtEGsXUfFL5hYbXw3MYbBL7f -->
+<!-- QccOKO7eZS/sl/ahXJbYANahRr1Z85elCUtIEJmAH9AAKcWxm6U/RXceNcbSoqKf -->
+<!-- enoi+kiVH6v7RyOA9Z74v2u3S5fi63V4GuzqN5l5GEv/1rMjaHXmr/r8i+sLgOpp -->
+<!-- O6/8MO0ETI7f33VtY5E90Z1WTk+/gFcioXgRMiF670EKsT/7qMykXcGhiJtXcVZO -->
+<!-- SEXAQsmbdlsKgEhr/Xmfwb1tbWrJUnMTDXpQzTGCFeswghXnAgEBMIGVMH4xCzAJ -->
+<!-- BgNVBAYTAlVTMRMwEQYDVQQIEwpXYXNoaW5ndG9uMRAwDgYDVQQHEwdSZWRtb25k -->
+<!-- MR4wHAYDVQQKExVNaWNyb3NvZnQgQ29ycG9yYXRpb24xKDAmBgNVBAMTH01pY3Jv -->
+<!-- c29mdCBDb2RlIFNpZ25pbmcgUENBIDIwMTECEzMAAADDDpun2LLc9ywAAAAAAMMw -->
+<!-- DQYJYIZIAWUDBAIBBQCggdowGQYJKoZIhvcNAQkDMQwGCisGAQQBgjcCAQQwHAYK -->
+<!-- KwYBBAGCNwIBCzEOMAwGCisGAQQBgjcCARUwLwYJKoZIhvcNAQkEMSIEIMuELZNg -->
+<!-- K6uU7STD6nFARnNqfJBPOU0VxkaFu4iKm71bMG4GCisGAQQBgjcCAQwxYDBeoDqA -->
+<!-- OABTAFEATAAgAFMAZQByAHYAZQByACAATQBhAG4AYQBnAGUAbQBlAG4AdAAgAFMA -->
+<!-- dAB1AGQAaQBvoSCAHmh0dHA6Ly93d3cubWljcm9zb2Z0LmNvbS9zcWwvIDANBgkq -->
+<!-- hkiG9w0BAQEFAASCAQCUh6IfJy3DxAsHGjMOPSxi4AwNtBLTDJCFmsbvlEHXEXA8 -->
+<!-- Nz5nNXS2M+ugiXGBOtKaoq+pKwn60k5dHQ01zDNBRDGRyjVW4OhW9FqqMRtFmix4 -->
+<!-- 6XJcCphoe5xCTuZ9+NdRWAuxd+LMGK/kSeP5q6sSKOAOt5NkfBGuIr6DI8EME7bY -->
+<!-- 3pXhtcdMSqBwFNCfP+NjHQN02uZAd0CNAzbMVBU2aZYJI7bVEo6E1/HkswbfNx37 -->
+<!-- eHc3nMAw/6mWmEUE5N7DYdjpU8u7K+MvCmWe2Cjy9HiTuYRYesyb6igC3gfCtSm4 -->
+<!-- WzXYEtfNAYW2WljN8woMJSoG0a8dyL9ZcmMoTSeioYITSTCCE0UGCisGAQQBgjcD -->
+<!-- AwExghM1MIITMQYJKoZIhvcNAQcCoIITIjCCEx4CAQMxDzANBglghkgBZQMEAgEF -->
+<!-- ADCCATwGCyqGSIb3DQEJEAEEoIIBKwSCAScwggEjAgEBBgorBgEEAYRZCgMBMDEw -->
+<!-- DQYJYIZIAWUDBAIBBQAEIO4tST9tHhKzmH++svTaHTBuJykrrgmiAy3pUwPMbv5P -->
+<!-- AgZZ1DSohN0YEzIwMTcxMDA0MDM1MzUxLjk5NVowBwIBAYACAfSggbikgbUwgbIx -->
+<!-- CzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpXYXNoaW5ndG9uMRAwDgYDVQQHEwdSZWRt -->
+<!-- b25kMR4wHAYDVQQKExVNaWNyb3NvZnQgQ29ycG9yYXRpb24xDDAKBgNVBAsTA0FP -->
+<!-- QzEnMCUGA1UECxMebkNpcGhlciBEU0UgRVNOOjEyRTctMzA2NC02MTEyMSUwIwYD -->
+<!-- VQQDExxNaWNyb3NvZnQgVGltZS1TdGFtcCBTZXJ2aWNloIIOzTCCBnEwggRZoAMC -->
+<!-- AQICCmEJgSoAAAAAAAIwDQYJKoZIhvcNAQELBQAwgYgxCzAJBgNVBAYTAlVTMRMw -->
+<!-- EQYDVQQIEwpXYXNoaW5ndG9uMRAwDgYDVQQHEwdSZWRtb25kMR4wHAYDVQQKExVN -->
+<!-- aWNyb3NvZnQgQ29ycG9yYXRpb24xMjAwBgNVBAMTKU1pY3Jvc29mdCBSb290IENl -->
+<!-- cnRpZmljYXRlIEF1dGhvcml0eSAyMDEwMB4XDTEwMDcwMTIxMzY1NVoXDTI1MDcw -->
+<!-- MTIxNDY1NVowfDELMAkGA1UEBhMCVVMxEzARBgNVBAgTCldhc2hpbmd0b24xEDAO -->
+<!-- BgNVBAcTB1JlZG1vbmQxHjAcBgNVBAoTFU1pY3Jvc29mdCBDb3Jwb3JhdGlvbjEm -->
+<!-- MCQGA1UEAxMdTWljcm9zb2Z0IFRpbWUtU3RhbXAgUENBIDIwMTAwggEiMA0GCSqG -->
+<!-- SIb3DQEBAQUAA4IBDwAwggEKAoIBAQCpHQ28dxGKOiDs/BOX9fp/aZRrdFQQ1aUK -->
+<!-- AIKF++18aEssX8XD5WHCdrc+Zitb8BVTJwQxH0EbGpUdzgkTjnxhMFmxMEQP8WCI -->
+<!-- hFRDDNdNuDgIs0Ldk6zWczBXJoKjRQ3Q6vVHgc2/JGAyWGBG8lhHhjKEHnRhZ5Ff -->
+<!-- gVSxz5NMksHEpl3RYRNuKMYa+YaAu99h/EbBJx0kZxJyGiGKr0tkiVBisV39dx89 -->
+<!-- 8Fd1rL2KQk1AUdEPnAY+Z3/1ZsADlkR+79BL/W7lmsqxqPJ6Kgox8NpOBpG2iAg1 -->
+<!-- 6HgcsOmZzTznL0S6p/TcZL2kAcEgCZN4zfy8wMlEXV4WnAEFTyJNAgMBAAGjggHm -->
+<!-- MIIB4jAQBgkrBgEEAYI3FQEEAwIBADAdBgNVHQ4EFgQU1WM6XIoxkPNDe3xGG8Uz -->
+<!-- aFqFbVUwGQYJKwYBBAGCNxQCBAweCgBTAHUAYgBDAEEwCwYDVR0PBAQDAgGGMA8G -->
+<!-- A1UdEwEB/wQFMAMBAf8wHwYDVR0jBBgwFoAU1fZWy4/oolxiaNE9lJBb186aGMQw -->
+<!-- VgYDVR0fBE8wTTBLoEmgR4ZFaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraS9j -->
+<!-- cmwvcHJvZHVjdHMvTWljUm9vQ2VyQXV0XzIwMTAtMDYtMjMuY3JsMFoGCCsGAQUF -->
+<!-- BwEBBE4wTDBKBggrBgEFBQcwAoY+aHR0cDovL3d3dy5taWNyb3NvZnQuY29tL3Br -->
+<!-- aS9jZXJ0cy9NaWNSb29DZXJBdXRfMjAxMC0wNi0yMy5jcnQwgaAGA1UdIAEB/wSB -->
+<!-- lTCBkjCBjwYJKwYBBAGCNy4DMIGBMD0GCCsGAQUFBwIBFjFodHRwOi8vd3d3Lm1p -->
+<!-- Y3Jvc29mdC5jb20vUEtJL2RvY3MvQ1BTL2RlZmF1bHQuaHRtMEAGCCsGAQUFBwIC -->
+<!-- MDQeMiAdAEwAZQBnAGEAbABfAFAAbwBsAGkAYwB5AF8AUwB0AGEAdABlAG0AZQBu -->
+<!-- AHQALiAdMA0GCSqGSIb3DQEBCwUAA4ICAQAH5ohRDeLG4Jg/gXEDPZ2joSFvs+um -->
+<!-- zPUxvs8F4qn++ldtGTCzwsVmyWrf9efweL3HqJ4l4/m87WtUVwgrUYJEEvu5U4zM -->
+<!-- 9GASinbMQEBBm9xcF/9c+V4XNZgkVkt070IQyK+/f8Z/8jd9Wj8c8pl5SpFSAK84 -->
+<!-- Dxf1L3mBZdmptWvkx872ynoAb0swRCQiPM/tA6WWj1kpvLb9BOFwnzJKJ/1Vry/+ -->
+<!-- tuWOM7tiX5rbV0Dp8c6ZZpCM/2pif93FSguRJuI57BlKcWOdeyFtw5yjojz6f32W -->
+<!-- apB4pm3S4Zz5Hfw42JT0xqUKloakvZ4argRCg7i1gJsiOCC1JeVk7Pf0v35jWSUP -->
+<!-- ei45V3aicaoGig+JFrphpxHLmtgOR5qAxdDNp9DvfYPw4TtxCd9ddJgiCGHasFAe -->
+<!-- b73x4QDf5zEHpJM692VHeOj4qEir995yfmFrb3epgcunCaw5u+zGy9iCtHLNHfS4 -->
+<!-- hQEegPsbiSpUObJb2sgNVZl6h3M7COaYLeqN4DMuEin1wC9UJyH3yKxO2ii4sanb -->
+<!-- lrKnQqLJzxlBTeCG+SqaoxFmMNO7dDJL32N79ZmKLxvHIa9Zta7cRDyXUHHXodLF -->
+<!-- VeNp3lfB0d4wwP3M5k37Db9dT+mdHhk4L7zPWAUu7w2gUDXa7wknHNWzfjUeCLra -->
+<!-- NtvTX4/edIhJEjCCBNkwggPBoAMCAQICEzMAAACsiiG8etKbcvQAAAAAAKwwDQYJ -->
+<!-- KoZIhvcNAQELBQAwfDELMAkGA1UEBhMCVVMxEzARBgNVBAgTCldhc2hpbmd0b24x -->
+<!-- EDAOBgNVBAcTB1JlZG1vbmQxHjAcBgNVBAoTFU1pY3Jvc29mdCBDb3Jwb3JhdGlv -->
+<!-- bjEmMCQGA1UEAxMdTWljcm9zb2Z0IFRpbWUtU3RhbXAgUENBIDIwMTAwHhcNMTYw -->
+<!-- OTA3MTc1NjU0WhcNMTgwOTA3MTc1NjU0WjCBsjELMAkGA1UEBhMCVVMxEzARBgNV -->
+<!-- BAgTCldhc2hpbmd0b24xEDAOBgNVBAcTB1JlZG1vbmQxHjAcBgNVBAoTFU1pY3Jv -->
+<!-- c29mdCBDb3Jwb3JhdGlvbjEMMAoGA1UECxMDQU9DMScwJQYDVQQLEx5uQ2lwaGVy -->
+<!-- IERTRSBFU046MTJFNy0zMDY0LTYxMTIxJTAjBgNVBAMTHE1pY3Jvc29mdCBUaW1l -->
+<!-- LVN0YW1wIFNlcnZpY2UwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCh -->
+<!-- xPQ8pY5zMaEXQVyrdwi3qdFDqrvf3HT5ujVWaoQJ2Km7+1T3GNnGpbND6PomAcw9 -->
+<!-- NfV+C+RMmCrThpUlBVzeuzsNL2Lsj9mMdK83ixebazenSrA0rXLIifWBzKHVP6jz -->
+<!-- sQWo96cHukHZqI8xRp3tYivgapt5LLrn9Rm2Jn+E0h2lKDOw5sIteZiriOMPH2Z7 -->
+<!-- mtgYXmyB8ThgdB46p6frNGpcXr11pa1Vkldl0iY6oBAKQQSxJ5Bn4N7ui5Wj5wDk -->
+<!-- DZzGAg6n1ptMPTPJhL2uosW84YjnSp/2suNap3qOjKEYXmpGzvasq5qyqPyvfqfk -->
+<!-- sOfNBaJntfpC8dIDJKrnAgMBAAGjggEbMIIBFzAdBgNVHQ4EFgQU2EdwqIU1ixNh -->
+<!-- r4eQ6EUXJOCYpw0wHwYDVR0jBBgwFoAU1WM6XIoxkPNDe3xGG8UzaFqFbVUwVgYD -->
+<!-- VR0fBE8wTTBLoEmgR4ZFaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3BraS9jcmwv -->
+<!-- cHJvZHVjdHMvTWljVGltU3RhUENBXzIwMTAtMDctMDEuY3JsMFoGCCsGAQUFBwEB -->
+<!-- BE4wTDBKBggrBgEFBQcwAoY+aHR0cDovL3d3dy5taWNyb3NvZnQuY29tL3BraS9j -->
+<!-- ZXJ0cy9NaWNUaW1TdGFQQ0FfMjAxMC0wNy0wMS5jcnQwDAYDVR0TAQH/BAIwADAT -->
+<!-- BgNVHSUEDDAKBggrBgEFBQcDCDANBgkqhkiG9w0BAQsFAAOCAQEASOzoXifDGxic -->
+<!-- XbTOdm43DB9dYxwNXaQj0hW0ztBACeWbX6zxee1w7TJeXQx1IfTz1BWJAfVla7HA -->
+<!-- 1oxa0LiF/Uf6rfRvEEmGmHr9wWEbr3xiErllTFE2V/mdYBSEwdj74m8QLBeFY37C -->
+<!-- jx4TFe+AB/FQly3kvfrJKDaYYTTXTAFYAKpi0AcDTcESXZcshJ/O8UZs9fr0BgrO -->
+<!-- m5h7qeQ1CJNmDMVEqElQt/cFO3dxqrAKv3Fu/nsT5GkABu+vIibgxX6tNmqccIIX -->
+<!-- KALgv7zDIaRAAWtXV9LwnmstDUbIp8dH/oSVm3tPnCPlrB3+C28vPnvJdbtJi/yO -->
+<!-- uETd+rLn+qGCA3cwggJfAgEBMIHioYG4pIG1MIGyMQswCQYDVQQGEwJVUzETMBEG -->
+<!-- A1UECBMKV2FzaGluZ3RvbjEQMA4GA1UEBxMHUmVkbW9uZDEeMBwGA1UEChMVTWlj -->
+<!-- cm9zb2Z0IENvcnBvcmF0aW9uMQwwCgYDVQQLEwNBT0MxJzAlBgNVBAsTHm5DaXBo -->
+<!-- ZXIgRFNFIEVTTjoxMkU3LTMwNjQtNjExMjElMCMGA1UEAxMcTWljcm9zb2Z0IFRp -->
+<!-- bWUtU3RhbXAgU2VydmljZaIlCgEBMAkGBSsOAwIaBQADFQA5cCWLFMh53V8MXemL -->
+<!-- nLOUmfcct6CBwTCBvqSBuzCBuDELMAkGA1UEBhMCVVMxEzARBgNVBAgTCldhc2hp -->
+<!-- bmd0b24xEDAOBgNVBAcTB1JlZG1vbmQxHjAcBgNVBAoTFU1pY3Jvc29mdCBDb3Jw -->
+<!-- b3JhdGlvbjEMMAoGA1UECxMDQU9DMScwJQYDVQQLEx5uQ2lwaGVyIE5UUyBFU046 -->
+<!-- MjY2NS00QzNGLUM1REUxKzApBgNVBAMTIk1pY3Jvc29mdCBUaW1lIFNvdXJjZSBN -->
+<!-- YXN0ZXIgQ2xvY2swDQYJKoZIhvcNAQEFBQACBQDdftV1MCIYDzIwMTcxMDA0MDMz -->
+<!-- NTE3WhgPMjAxNzEwMDUwMzM1MTdaMHcwPQYKKwYBBAGEWQoEATEvMC0wCgIFAN1+ -->
+<!-- 1XUCAQAwCgIBAAICEX4CAf8wBwIBAAICGUcwCgIFAN2AJvUCAQAwNgYKKwYBBAGE -->
+<!-- WQoEAjEoMCYwDAYKKwYBBAGEWQoDAaAKMAgCAQACAxbjYKEKMAgCAQACAwehIDAN -->
+<!-- BgkqhkiG9w0BAQUFAAOCAQEAjq7WIUkg0o2AvvmIg8NgFOOE5mHHLxNQpzkmxsY8 -->
+<!-- TQcg8fToGOZzyevliVmVNpbBh/ZSFWPbSdKVh8Pnz09TZaKvODbqV7rDgjzY4csy -->
+<!-- Wf6lgvLZRrIZJ2/HkF6CXSdlV7WW+jshTVVw+pLzR1kqepnTzB8Wh8fLSizMewNr -->
+<!-- QrkaYogluLXRJQ9P9u05VRabtd+/lY2CvuqiMou1y1jduck6kx9Blqbpoxrpw1ia -->
+<!-- MEmOea7s5EDz2nWW/Z7BIQKmrxB0v91MnbcXTnUIoAuWoQrs0K8tlvaX1fvgmdkB -->
+<!-- NDCLCHiB/3LGh1ALNm7O5Uu83LdSgx8EN2QqSL4GzLdP+DGCAvUwggLxAgEBMIGT -->
+<!-- MHwxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpXYXNoaW5ndG9uMRAwDgYDVQQHEwdS -->
+<!-- ZWRtb25kMR4wHAYDVQQKExVNaWNyb3NvZnQgQ29ycG9yYXRpb24xJjAkBgNVBAMT -->
+<!-- HU1pY3Jvc29mdCBUaW1lLVN0YW1wIFBDQSAyMDEwAhMzAAAArIohvHrSm3L0AAAA -->
+<!-- AACsMA0GCWCGSAFlAwQCAQUAoIIBMjAaBgkqhkiG9w0BCQMxDQYLKoZIhvcNAQkQ -->
+<!-- AQQwLwYJKoZIhvcNAQkEMSIEINqdUVgub9+78hEjjEcYTeOK+Mmn6KPECHdMaOAf -->
+<!-- 9fcUMIHiBgsqhkiG9w0BCRACDDGB0jCBzzCBzDCBsQQUOXAlixTIed1fDF3pi5yz -->
+<!-- lJn3HLcwgZgwgYCkfjB8MQswCQYDVQQGEwJVUzETMBEGA1UECBMKV2FzaGluZ3Rv -->
+<!-- bjEQMA4GA1UEBxMHUmVkbW9uZDEeMBwGA1UEChMVTWljcm9zb2Z0IENvcnBvcmF0 -->
+<!-- aW9uMSYwJAYDVQQDEx1NaWNyb3NvZnQgVGltZS1TdGFtcCBQQ0EgMjAxMAITMwAA -->
+<!-- AKyKIbx60pty9AAAAAAArDAWBBS7oxHT7XcYCurZnm0ONnHxsdDMODANBgkqhkiG -->
+<!-- 9w0BAQsFAASCAQBbJqicjYj51tKUePAxVQObpAw0Yb5Sw6/P0X+kX3K9s4PBRXa6 -->
+<!-- jjzD3nY8v5yhE4DEo6mOHAUEpHbXybnSMApWI/kVImWSIOoS2mcemQUiLFOlSfxf -->
+<!-- 2x9Y4y2A3MXOYRtErIj5/JFP86xjw0Gf+WsnSNFmCRBkr5yu1B/c1tCaMWmiUzGV -->
+<!-- Ld53fII8KX8zn0OQof5e6GopR+EzcuEuI14frPYHdDDssnK+8SnPZNNJtM/s3dCO -->
+<!-- 92yGYdmNYmmQ4nYW3VbIDQqeBtWfcXRKpSxvKQB9by8Ylq9PP10JLzpqazwWg6o+ -->
+<!-- gCPyyb65C5/IAaR9n+kFXmop5BS8I6GBkPA8 -->
+<!-- SIG # End signature block -->

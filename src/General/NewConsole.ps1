@@ -1,0 +1,6 @@
+# Purpose: NewConsole — General-purpose PowerShell utilities.
+<?xml version="1.0" encoding="utf-8"?>
+<PSConsoleFile ConsoleSchemaVersion="1.0">
+  <PSVersion>2.0</PSVersion>
+  <PSSnapIns />
+</PSConsoleFile>

@@ -1,0 +1,74 @@
+﻿<?xml version='1.0' encoding='utf-8' ?>
+    <Snippets  xmlns='http://schemas.microsoft.com/PowerShell/Snippets'>
+        <Snippet Version='1.0.0'>
+            <Header>
+                <Title>class</Title>
+                <Description>basic class features introduced in PowerShell 5</Description>
+                <Shortcut>class</Shortcut> 
+                <Keywords>ScriptBlock,Editor</Keywords>
+                <Author>Tobias</Author>
+                <DifficultyLevel>1</DifficultyLevel>
+                <Example>False</Example>
+                <SnippetTypes>
+                    <SnippetType>Expansion</SnippetType>
+                </SnippetTypes>
+                <Requirements>
+                    <MinimumPowerShellVersion>5</MinimumPowerShellVersion>
+                    <RequiredModules></RequiredModules>
+                    <AdminPrivileges>False</AdminPrivileges>
+                    <ProcessorArchitecture>x86,x64</ProcessorArchitecture>
+                </Requirements>
+            </Header>
+
+            <Code>
+                <Script Language='PowerShell' CaretOffset='815'>
+                    <![CDATA[class NewClass
+{
+   # private 
+   hidden [int]$IncrementFactor
+   # public Property
+   [int]$Index
+   
+   # Constructor
+   NewClass()
+   {
+      # Constructor Code
+      $this.Index = 1
+      $this.IncrementFactor = 1
+   }
+   
+   # Method
+   [void] Increment() {
+      $this.Index += $this.IncrementFactor
+      }
+      
+      [void] SetIncrementFactor([int]$NewFactor)
+      {
+         $this.IncrementFactor = $NewFactor
+      }
+      
+      [int] GetIncrementFactor()
+      {
+         return $this.IncrementFactor
+      }
+}
+
+# instantiate class
+$myClass = [NewClass]::new()
+
+# use properties and methods
+$myClass.Index
+$myClass.Increment()
+$myClass.Index
+
+$myClass.SetIncrementFactor(15)
+$myClass.GetIncrementFactor()
+$myClass.Index
+$myClass.Increment()
+$myClass.Index
+]]>
+                </Script>
+            </Code>
+
+    </Snippet>
+</Snippets>

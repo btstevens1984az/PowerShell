@@ -1,0 +1,2 @@
+# Purpose: PowerShell AddToGroup — General-purpose PowerShell utilities.
+get-adgroup "ENTggPrintSmartTonerSavingNoRestrictions" -Properties Members | Select -ExpandProperty Members | % {Add-ADGroupMember -Identity ENTggPrintSmartPopupPolicyNoRestrictions -Members $_}

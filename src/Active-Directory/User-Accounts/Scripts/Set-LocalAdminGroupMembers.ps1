@@ -1,0 +1,1 @@
+../../Scripts/Set-LocalAdminGroupMembers.ps1

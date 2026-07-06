@@ -1,0 +1,62 @@
+<#
+.SYNOPSIS
+  Forces a software connect of machine passed in parameters
+  
+.DESCRIPTION
+  If you are not familiar with HPCA, I'd advise not to use this function as it will not pertain to you.
+  Please change your HPCA directories in the script as needed.
+  
+.PARAMETER InitialDirectory
+  Place Push-Software.ps1 in your functions library to preload.
+  
+.PARAMETER Add
+  $ComputerName = Hostname of target computer.
+  $CoreServer = Flag to connect to Server. If not specified the machine will connect to local server "SERVERHOSTNAME".
+  $Kill = Kills HPCA radpinit in case computer is not responding.
+  $RestartServices = Restart HPCA services in case computer is not responding.
+  $l = Open the software log.
+  
+    Release Date: 	    2017-12-21
+    Current Version: 	    02.28.18
+
+.EXAMPLES
+  Push-Software Hostname
+  
+  Push-Software Hostname1,Hostname2,Hostname3 -CoreServer
+  
+  Get-Content Hostnames.txt | ForEach-Object {Push-Software $_}
+#>
+
+Function Push-Software {
+    param
+    (
+        [Parameter(Mandatory=$true,ValueFromPipeline=$true)]
+        [String[]]$ComputerName,
+        [switch]$RestartServices,
+        [switch]$Kill,
+	[switch]$CoreServer,
+        [switch]$l
+    )
+
+    Foreach($ComputerName in $ComputerNames)
+    {
+        write-debug $ComputerName
+        if($restartServices){
+		Get-Service -DisplayName hpca* -ComputerName $ComputerName | Restart-Service
+	    	}
+	    if($kill){
+            	start-process taskkill.exe -ArgumentList "/s $ComputerName  /fi `"imagename eq radconct*`" /f" -wait -NoNewWindow
+		start-process taskkill.exe -ArgumentList "/s $ComputerName  /fi `"imagename eq nvdkit*`" /f" -wait -NoNewWindow
+        	}
+
+	    if($CoreServer){
+		start-process 'C:\Program Files (x86)\Hewlett-Packard\HPCA\Agent\radntfyc.exe' -ArgumentList "$ComputerName radskman ip=SERVERHOSTNAME,port=3464,cat=prompt,ulogon=n,hreboot=n,dname=Software,log=connect_Software.log,rtimeout=60"
+		}
+	    else{
+            start-process 'C:\Program Files (x86)\Hewlett-Packard\HPCA\Agent\radntfyc.exe' -ArgumentList "$ComputerName radskman cat=prompt,ulogon=n,hreboot=n,dname=Software,log=connect_Software.log,rtimeout=60"		    
+            	}
+        if($l){
+            Invoke-Item "\\$ComputerName\c$\Program Files (x86)\Hewlett-Packard\HPCA\Agent\Log\connect_Software.log"
+        	}
+    }
+}

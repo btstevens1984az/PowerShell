@@ -1,0 +1,77 @@
+﻿<?xml version='1.0' encoding='utf-8' ?>
+    <Snippets  xmlns='http://schemas.microsoft.com/PowerShell/Snippets'>
+        <Snippet Version='1.0.0'>
+            <Header>
+                <Title>try...catch...finally</Title>
+                <Description>errorhandler with multiple specific handlers and finally clause</Description>
+                <Shortcut>final</Shortcut> 
+                <Keywords>scriptblock</Keywords>
+                <Author>ISESteroids</Author>
+                <DifficultyLevel>1</DifficultyLevel>
+                <Example>False</Example>
+                <SnippetTypes>
+                    <SnippetType>Expansion</SnippetType>
+                    <SnippetType>SurroundsWith</SnippetType>
+                    <SnippetType>Refactor</SnippetType>
+                </SnippetTypes>
+                <Requirements>
+                    <MinimumPowerShellVersion>1</MinimumPowerShellVersion>
+                    <RequiredModules></RequiredModules>
+                    <AdminPrivileges>False</AdminPrivileges>
+                    <ProcessorArchitecture>x86,x64</ProcessorArchitecture>
+                </Requirements>
+            </Header>
+            <Declarations>
+                <Literal>
+                   <ID><![CDATA[12;3;0]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[code to handle]]></ToolTipStatusbar>
+                   <EncloseSelection>true</EncloseSelection>
+                   <SupportsSurroundsWith>true</SupportsSurroundsWith>
+                </Literal>
+                <Literal>
+                   <ID><![CDATA[58;37;0]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[error handler]]></ToolTipStatusbar>
+                </Literal>
+                <Literal>
+                   <ID><![CDATA[159;28;0]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[error handler]]></ToolTipStatusbar>
+                </Literal>
+                <Literal>
+                   <ID><![CDATA[208;28;0]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[code to execute after handler is done]]></ToolTipStatusbar>
+                </Literal>
+            </Declarations>
+
+
+            <Code>
+                <Script Language='PowerShell' CaretOffset='241'>
+                    <![CDATA[try
+{
+    1/0
+}
+catch [DivideByZeroException]
+{
+    Write-Host 'Divide by zero exception'
+}
+catch [System.Net.WebException],[System.Exception]
+{
+    Write-Host 'Other exception'
+}
+finally
+{
+    Write-Host 'cleaning up ...'
+}
+]]>
+                </Script>
+            </Code>
+
+    </Snippet>
+</Snippets>

@@ -1,0 +1,86 @@
+<html>
+<head>
+<title>Computer Information</title>
+<HTA:APPLICATION
+ID="getipinfo"
+APPLICATIONNAME="GETIPINFO"
+BORDER = "thick"
+SINGLEINSTANCE="yes"
+WINDOWSTATE="normal"
+SCROLL="yes"
+SCROLLFLAT="no"
+VERSION="01.03.12"
+INNERBORDER="yes"
+BORDERSTYLE="double"
+
+>
+</head>
+
+<SCRIPT LANGUAGE="VBScript">
+
+Dim strComputer
+Dim colItems, objitems
+Dim strComputerName
+
+Sub Window_onLoad
+    window.resizeTo 550,750
+End Sub
+
+Sub CheckIPs()
+    arrList = split(computernames.value,vbcrlf)    'split the list by CR/LF
+
+    For each strMachine in arrList
+		strComputer = strMachine
+Set objWMIService = GetObject("winmgmts:\\" & strComputer & "\root\cimv2")
+Set colItems = objWMIService.ExecQuery("Select * From Win32_NetworkAdapterConfiguration Where IPEnabled = True")
+ 
+				For Each objItem in colItems
+		
+'<!--		        strHtml = strHtml & strComputer & "<td><Font color = TAN>" & " MAC Address: " &  "</Font></td>"
+'					strHtml = strHtml & "<td><Font color = SILVER>" & objItem.MACAddress & "</Font></Td><Br><br>"
+' -->
+				For Each strAddress in objItem.IPAddress
+					strHtml = strHtml & strComputer & "<td><Font color = TAN>" & " IP Address: " &  "</Font></td>"
+					strHtml = strHtml & "<td><Font color = SILVER>" & strAddress & "</Font></Td><Br><br>"
+ 
+Next
+ 
+Next
+Next
+DataArea.InnerHtml = strHtml
+End Sub
+
+
+Sub ResetForm
+window.location.reload()
+	computernames.value = ""
+	ComputerNames.Focus()
+end Sub
+
+</SCRIPT>
+
+<body STYLE="font:14 pt arial; color:white;
+ filter:progid:DXImageTransform.Microsoft.Gradient
+(GradientType=1, StartColorStr='#000000', EndColorStr='#0000FF')">
+<center>
+
+<br><hr color=blue>
+
+Enter or Paste Computer Names:
+ 
+<br>
+
+<textarea name= "ComputerNames" rows=15 cols=24></textarea><p><br>
+<input type="button" value="Check   Computers" onClick="CheckIPs()">
+<br>
+<input type="button" Value="Reset Form" onClick="ResetForm()">
+<input type="button" Value="   Exit   " onClick=self.Close()>
+<br>
+<hr color=blue><br>
+<span Id = "DataArea"><P align=left><b>
+<br>
+</span>
+<br><br>
+
+</body>
+</html>

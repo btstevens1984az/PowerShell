@@ -1,0 +1,1 @@
+../../General/Get-ApplicationInfo.ps1

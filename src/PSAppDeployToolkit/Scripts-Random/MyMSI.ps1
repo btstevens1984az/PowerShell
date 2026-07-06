@@ -1,0 +1,1 @@
+../../Middleware-Packaging/Scripts/MyMSI.ps1

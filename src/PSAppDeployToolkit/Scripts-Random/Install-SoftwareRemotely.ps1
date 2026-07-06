@@ -1,0 +1,1 @@
+../../Middleware-Packaging/Scripts/Install-SoftwareRemotely.ps1

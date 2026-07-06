@@ -1,0 +1,2 @@
+# Purpose: LaunchPSasAdmin — General-purpose PowerShell utilities.
+Start-Process powershell.exe -Credential "domain\name" -NoNewWindow -ArgumentList "Start-Process powershell.exe -Verb runAs"

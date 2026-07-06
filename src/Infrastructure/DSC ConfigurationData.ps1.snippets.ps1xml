@@ -1,0 +1,47 @@
+﻿<?xml version='1.0' encoding='utf-8' ?>
+    <Snippets  xmlns='http://schemas.microsoft.com/PowerShell/Snippets'>
+        <Snippet Version='1.0.0'>
+            <Header>
+                <Title>DSC ConfigurationData.ps1</Title>
+                <Description></Description>
+                <Shortcut></Shortcut> 
+                <Keywords>ScriptBlock</Keywords>
+                <Author>Tobias</Author>
+                <DifficultyLevel>1</DifficultyLevel>
+                <Example>False</Example>
+                <SnippetTypes>
+                    <SnippetType>Expansion</SnippetType>
+                </SnippetTypes>
+                <Requirements>
+                    <MinimumPowerShellVersion>4</MinimumPowerShellVersion>
+                    <RequiredModules></RequiredModules>
+                    <AdminPrivileges>False</AdminPrivileges>
+                    <ProcessorArchitecture>x86,x64</ProcessorArchitecture>
+                </Requirements>
+            </Header>
+
+            <Code>
+                <Script Language='PowerShell' CaretOffset='370'>
+                    <![CDATA[@{
+    AllNodes = @(
+        @{
+            NodeName = 'Node1'
+            Role = 'WebServer'
+            },
+        @{
+            NodeName = 'Node2'
+            Role = 'SQLServer'
+            },
+        @{
+            NodeName = 'Node3'
+            Role = 'WebServer'
+            }
+    )
+}
+# Save ConfigurationData in a file with .psd1 file extension
+]]>
+                </Script>
+            </Code>
+
+    </Snippet>
+</Snippets>

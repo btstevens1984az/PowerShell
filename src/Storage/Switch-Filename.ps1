@@ -1,0 +1,2 @@
+# Purpose: Switch-Filename — Storage management and disk operations.
+  copy-item $ENV:WinDir\WindowsUpdate.Log $ENV:TEMP\WindowsUpdate.Log -Force  $errcount=$warncount=0  switch -wildcard -CaseSensitive -File "$ENV:TEMP\WindowsUpdate.Log"  {    "*ERROR*"   {write-host "Panic! Panic!";$errcount++}    "*WARNING*" {write-host "Worry! Worry!";$warncount++}  }  write-output "Errors:   $errcount"  write-output "Warnings: $warncount"

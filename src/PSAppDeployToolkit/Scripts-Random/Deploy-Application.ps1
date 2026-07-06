@@ -1,0 +1,1 @@
+../Scripts/Deploy-Application.ps1

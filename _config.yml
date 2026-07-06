@@ -1,0 +1,26 @@
+title: PowerShell Infrastructure Automation
+description: Enterprise PowerShell scripts organized by software platform for IT automation engineers
+theme: jekyll-theme-cayman
+logo: assets/powershell-repo-icon.png
+show_downloads: true
+
+# PowerShell brand colors injected via custom CSS
+color_scheme: powershell
+
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+exclude:
+  - scripts/
+  - src/
+  - Modules/
+  - Shared/
+  - Snippets/
+  - Reference/
+  - Tools/

@@ -1,0 +1,2 @@
+# Purpose: Get-QADUser_cn_createtimestamp_enabled — General-purpose PowerShell utilities.
+Get-QADUser -SizeLimit 0 -ErrorAction SilentlyContinue -IncludedProperties cn,createtimestamp -Enabled | Format-Table cn,createtimestamp | Out-File c:\temp\powershell\users_enabled.txt

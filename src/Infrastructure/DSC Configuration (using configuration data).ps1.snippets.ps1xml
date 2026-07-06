@@ -1,0 +1,65 @@
+﻿<?xml version='1.0' encoding='utf-8' ?>
+    <Snippets  xmlns='http://schemas.microsoft.com/PowerShell/Snippets'>
+        <Snippet Version='1.0.0'>
+            <Header>
+                <Title>DSC Configuration (using configuration data).ps1</Title>
+                <Description></Description>
+                <Shortcut></Shortcut> 
+                <Keywords>ScriptBlock</Keywords>
+                <Author>Tobias</Author>
+                <DifficultyLevel>1</DifficultyLevel>
+                <Example>False</Example>
+                <SnippetTypes>
+                    <SnippetType>Expansion</SnippetType>
+                </SnippetTypes>
+                <Requirements>
+                    <MinimumPowerShellVersion>4</MinimumPowerShellVersion>
+                    <RequiredModules></RequiredModules>
+                    <AdminPrivileges>False</AdminPrivileges>
+                    <ProcessorArchitecture>x86,x64</ProcessorArchitecture>
+                </Requirements>
+            </Header>
+            <Declarations>
+                <Literal>
+                   <ID><![CDATA[14;17;0]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[Configuration name]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[Configuration name]]></ToolTipStatusbar>
+                </Literal>
+            </Declarations>
+
+
+            <Code>
+                <Script Language='PowerShell' CaretOffset='765'>
+                    <![CDATA[configuration ConfigurationName
+{
+    # One can evaluate expressions to get the node list
+    # E.g: $AllNodes.Where("Role -eq Web").NodeName
+    node $AllNodes.Where{$_.Role -eq 'WebServer'}.NodeName
+    {
+        # Call Resource Provider
+        # E.g: WindowsFeature, File
+        WindowsFeature FriendlyName
+        {
+           Ensure = 'Present'
+           Name = 'Feature Name'
+        }
+
+        File FriendlyName
+        {
+            Ensure = 'Present'
+            SourcePath = $SourcePath
+            DestinationPath = $DestinationPath
+            Type = 'Directory'
+            DependsOn = '[WindowsFeature]FriendlyName'
+        }       
+    }
+}
+
+# ConfigurationName -configurationData <path to ConfigurationData (.psd1) file>
+]]>
+                </Script>
+            </Code>
+
+    </Snippet>
+</Snippets>

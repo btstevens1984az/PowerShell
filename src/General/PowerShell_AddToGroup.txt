@@ -1,0 +1,1 @@
+get-adgroup "Network Planning and Integration" -Properties Members | Select -ExpandProperty Members | % {Add-ADGroupMember -Identity ENTggSplunkNetworkOs -Members $_}

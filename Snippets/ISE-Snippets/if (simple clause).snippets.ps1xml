@@ -1,0 +1,65 @@
+﻿<?xml version='1.0' encoding='utf-8' ?>
+    <Snippets  xmlns='http://schemas.microsoft.com/PowerShell/Snippets'>
+        <Snippet Version='1.0.0'>
+            <Header>
+                <Title>if</Title>
+                <Description>Condition</Description>
+                <Shortcut>if</Shortcut> 
+                <Keywords>scriptblock</Keywords>
+                <Author>ISESteroids</Author>
+                <DifficultyLevel>2</DifficultyLevel>
+                <Example>False</Example>
+                <SnippetTypes>
+                    <SnippetType>Expansion</SnippetType>
+                    <SnippetType>SurroundsWith</SnippetType>
+                    <SnippetType>Refactor</SnippetType>
+                </SnippetTypes>
+                <Requirements>
+                    <MinimumPowerShellVersion>1</MinimumPowerShellVersion>
+                    <RequiredModules></RequiredModules>
+                    <AdminPrivileges>False</AdminPrivileges>
+                    <ProcessorArchitecture>x86,x64</ProcessorArchitecture>
+                </Requirements>
+            </Header>
+            <Declarations>
+                <Literal>
+                   <ID><![CDATA[5;1;0]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[Variable to check]]></ToolTipStatusbar>
+                </Literal>
+                <Literal>
+                   <ID><![CDATA[8;2;0]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[comparison operator]]></ToolTipStatusbar>
+                </Literal>
+                <Literal>
+                   <ID><![CDATA[11;2;0]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[Value to check against]]></ToolTipStatusbar>
+                </Literal>
+                <Literal>
+                   <ID><![CDATA[21;9;0]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[code to execute when condition is met]]></ToolTipStatusbar>
+                   <EncloseSelection>true</EncloseSelection>
+                   <SupportsSurroundsWith>true</SupportsSurroundsWith>
+                </Literal>
+            </Declarations>
+
+
+            <Code>
+                <Script Language='PowerShell' CaretOffset='35'>
+                    <![CDATA[if ($x -gt $y)
+{
+  # Content
+}
+]]>
+                </Script>
+            </Code>
+
+    </Snippet>
+</Snippets>

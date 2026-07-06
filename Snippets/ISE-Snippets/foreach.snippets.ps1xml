@@ -1,0 +1,59 @@
+﻿<?xml version='1.0' encoding='utf-8' ?>
+    <Snippets  xmlns='http://schemas.microsoft.com/PowerShell/Snippets'>
+        <Snippet Version='1.0.0'>
+            <Header>
+                <Title>foreach</Title>
+                <Description>iterates through each element of a collection</Description>
+                <Shortcut>foreach</Shortcut> 
+                <Keywords>scriptblock</Keywords>
+                <Author>ISESteroids</Author>
+                <DifficultyLevel>1</DifficultyLevel>
+                <Example>False</Example>
+                <SnippetTypes>
+                    <SnippetType>Expansion</SnippetType>
+                    <SnippetType>SurroundsWith</SnippetType>
+                    <SnippetType>Refactor</SnippetType>
+                </SnippetTypes>
+                <Requirements>
+                    <MinimumPowerShellVersion>1</MinimumPowerShellVersion>
+                    <RequiredModules></RequiredModules>
+                    <AdminPrivileges>False</AdminPrivileges>
+                    <ProcessorArchitecture>x86,x64</ProcessorArchitecture>
+                </Requirements>
+            </Header>
+            <Declarations>
+                <Literal>
+                   <ID><![CDATA[10;4;0;10;4;38;4]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[Name of accessor variable]]></ToolTipStatusbar>
+                </Literal>
+                <Literal>
+                   <ID><![CDATA[19;10;0]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[Name of data collection to enumerate]]></ToolTipStatusbar>
+                </Literal>
+                <Literal>
+                   <ID><![CDATA[37;5;0;9;5]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[Code to be repeated]]></ToolTipStatusbar>
+                   <EncloseSelection>true</EncloseSelection>
+                   <SupportsSurroundsWith>true</SupportsSurroundsWith>
+                </Literal>
+            </Declarations>
+
+
+            <Code>
+                <Script Language='PowerShell' CaretOffset='47'>
+                    <![CDATA[foreach ($item in $collection)
+{
+  $item
+}
+]]>
+                </Script>
+            </Code>
+
+    </Snippet>
+</Snippets>

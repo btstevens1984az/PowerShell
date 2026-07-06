@@ -1,0 +1,64 @@
+﻿<?xml version='1.0' encoding='utf-8' ?>
+    <Snippets  xmlns='http://schemas.microsoft.com/PowerShell/Snippets'>
+        <Snippet Version='1.0.0'>
+            <Header>
+                <Title>elseif</Title>
+                <Description>inserts &quot;elseif&quot; conditional block to an existing IF clause</Description>
+                <Shortcut>ei</Shortcut> 
+                <Keywords>ScriptBlock</Keywords>
+                <Author>Tobias</Author>
+                <DifficultyLevel>2</DifficultyLevel>
+                <Example>False</Example>
+                <SnippetTypes>
+                    <SnippetType>Expansion</SnippetType>
+                    <SnippetType>SurroundsWith</SnippetType>
+                </SnippetTypes>
+                <Requirements>
+                    <MinimumPowerShellVersion>1</MinimumPowerShellVersion>
+                    <RequiredModules></RequiredModules>
+                    <AdminPrivileges>False</AdminPrivileges>
+                    <ProcessorArchitecture>x86,x64</ProcessorArchitecture>
+                </Requirements>
+            </Header>
+            <Declarations>
+                <Literal>
+                   <ID><![CDATA[9;1;1]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[Variable to check]]></ToolTipStatusbar>
+                </Literal>
+                <Literal>
+                   <ID><![CDATA[12;2;0]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[comparison operator]]></ToolTipStatusbar>
+                </Literal>
+                <Literal>
+                   <ID><![CDATA[15;1;0]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[value to check against]]></ToolTipStatusbar>
+                </Literal>
+                <Literal>
+                   <ID><![CDATA[24;9;0]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[Script code to execute]]></ToolTipStatusbar>
+                   <EncloseSelection>true</EncloseSelection>
+                </Literal>
+            </Declarations>
+
+
+            <Code>
+                <Script Language='PowerShell' CaretOffset='40'>
+                    <![CDATA[elseif ($a -eq 2)
+{
+  # Content
+
+}
+]]>
+                </Script>
+            </Code>
+
+    </Snippet>
+</Snippets>

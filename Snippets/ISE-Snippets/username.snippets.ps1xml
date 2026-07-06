@@ -1,0 +1,30 @@
+﻿<?xml version='1.0' encoding='utf-8' ?>
+    <Snippets  xmlns='http://schemas.microsoft.com/PowerShell/Snippets'>
+        <Snippet Version='1.0.0'>
+            <Header>
+                <Title>Get User Name</Title>
+                <Description>gets the user name who is executing this script</Description>
+                <Shortcut></Shortcut> 
+                <Keywords>Editor,Console</Keywords>
+                <Author>Tobias Weltner</Author>
+                <DifficultyLevel>4</DifficultyLevel>
+                <Example>False</Example>
+                <SnippetTypes>
+                    <SnippetType>Expansion</SnippetType>
+                </SnippetTypes>
+                <Requirements>
+                    <MinimumPowerShellVersion>1</MinimumPowerShellVersion>
+                    <RequiredModules></RequiredModules>
+                    <AdminPrivileges>False</AdminPrivileges>
+                    <ProcessorArchitecture>x86,x64</ProcessorArchitecture>
+                </Requirements>
+            </Header>
+
+            <Code>
+                <Script Language='PowerShell' CaretOffset='23'>
+                    <![CDATA[[Environment]::UserName]]>
+                </Script>
+            </Code>
+
+    </Snippet>
+</Snippets>

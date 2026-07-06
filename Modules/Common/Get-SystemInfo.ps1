@@ -1,0 +1,1 @@
+../../src/Computer-Info/Scripts/Get-SystemInfo.ps1

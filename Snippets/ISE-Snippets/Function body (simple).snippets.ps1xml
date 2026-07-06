@@ -1,0 +1,53 @@
+﻿<?xml version='1.0' encoding='utf-8' ?>
+    <Snippets  xmlns='http://schemas.microsoft.com/PowerShell/Snippets'>
+        <Snippet Version='1.0.0'>
+            <Header>
+                <Title>Function body (simple)</Title>
+                <Description>adds simple function body</Description>
+                <Shortcut>Func</Shortcut> 
+                <Keywords>scriptblock</Keywords>
+                <Author>Tobias</Author>
+                <DifficultyLevel>4</DifficultyLevel>
+                <Example>False</Example>
+                <SnippetTypes>
+                    <SnippetType>Expansion</SnippetType>
+                    <SnippetType>SurroundsWith</SnippetType>
+                </SnippetTypes>
+                <Requirements>
+                    <MinimumPowerShellVersion>1</MinimumPowerShellVersion>
+                    <RequiredModules></RequiredModules>
+                    <AdminPrivileges>False</AdminPrivileges>
+                    <ProcessorArchitecture>x86,x64</ProcessorArchitecture>
+                </Requirements>
+            </Header>
+            <Declarations>
+                <Literal>
+                   <ID><![CDATA[9;13;0]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[Value]]></ToolTipStatusbar>
+                </Literal>
+                <Literal>
+                   <ID><![CDATA[29;8;0]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[Function code]]></ToolTipStatusbar>
+                   <EncloseSelection>true</EncloseSelection>
+                </Literal>
+            </Declarations>
+
+
+            <Code>
+                <Script Language='PowerShell' CaretOffset='41'>
+                    <![CDATA[function Get-Something
+{
+  #Content
+  
+
+}
+]]>
+                </Script>
+            </Code>
+
+    </Snippet>
+</Snippets>

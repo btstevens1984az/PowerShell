@@ -1,0 +1,86 @@
+<#
+.SYNOPSIS
+  Forces a patch connect of machine passed in parameters
+  Please see extra function at the bottom of the script: Push-Patch-Parallel
+  
+.DESCRIPTION
+  If you are not familiar with HPCA, I'd advise not to use this function as it will not pertain to you.
+  Please change your HPCA directories in the script as needed.
+  
+.PARAMETER InitialDirectory
+  Place Push-Patch.ps1 in your functions library to preload.
+  
+.PARAMETER Add
+  $ComputerName = Hostname of target computer.
+  $CoreServer = Flag to connect to Server. If not specified the machine will connect to local server "SERVERHOSTNAME".
+  $Kill = Kills HPCA radpinit in case computer is not responding
+  $RestartServices = Restart HPCA services in case computer is not responding
+  $EnableWindowsUpdate = Starts Windows Update service
+  $EWU = Starts Windows Update service
+  
+    Release Date: 	    2017-12-21
+    Current Version: 	02.28.18
+
+.EXAMPLES
+  Push-Patch Hostname
+  
+  Push-Patch Hostname1,Hostname2,Hostname3 -CoreServer -EWU
+  
+  Get-Content Hostnames.txt | ForEach-Object {Push-Patch $_}
+#>
+
+Function Push-Patch {
+    param
+    (
+        [Parameter(Mandatory = $true, ValueFromPipeline = $true)]
+        [String[]]$ComputerName,
+        [switch]$CoreServer,
+        [switch]$RestartServices,
+        [switch]$Kill,
+        [switch]$EnableWindowsUpdate,
+        [switch]$EWU
+    )
+
+    
+    Foreach ($cn in $ComputerName) {
+        write-debug $cn
+        if ($restartServices) {
+            Get-Service -DisplayName hpca* -ComputerName $cn |Restart-Service
+        }
+        if ($kill) {
+            start-process taskkill.exe -ArgumentList "/s $cn  /fi `"imagename eq radconct*`" /f" -wait -NoNewWindow
+            start-process taskkill.exe -ArgumentList "/s $cn  /fi `"imagename eq nvdkit*`" /f" -wait -NoNewWindow
+            start-process taskkill.exe -ArgumentList "/s $cn  /fi `"imagename eq rad*`" /f" -wait -NoNewWindow
+        }
+
+        if ($enableWindowsUpdate -or $EWU) {
+            Get-Service -DisplayName "Windows Update" -ComputerName $cn | Start-Service
+        }
+        
+        if ($CoreServer) {
+            Start-Process 'C:\Program Files (x86)\Hewlett-Packard\HPCA\Agent\radntfyc.exe' -ArgumentList "$cn radskman ip=SERVERHOSTNAME,port=3464,cat=prompt,ulogon=n,hreboot=n,dname=Patch,log=connect_Patch.log,rtimeout=60,rcsuri=tcp://SERVERHOSTNAME:3464,datauri=http://SERVERHOSTNAME:3466"
+        }
+        else {
+            start-process 'C:\Program Files (x86)\Hewlett-Packard\HPCA\Agent\radntfyc.exe' -ArgumentList "$cn radskman cat=prompt,ulogon=n,hreboot=n,dname=Patch,log=connect_Patch.log,rtimeout=60"
+        }
+    }
+}
+
+function Push-Patch-Parallel {
+    param
+    (
+        [Parameter(Mandatory = $true, ValueFromPipeline = $true)]
+        [String]$InputObject,
+        [switch]$Kill
+    )
+    
+    Invoke-Parallel -InputObject (Get-Content($InputObject)) -ScriptBlock {
+        . "E:\WindowsPowerShell\Modules\Push-Patch.ps1";
+        if ($kill) {
+            push-patch $_ -kill
+        }
+        else {
+            push-patch $_
+        }
+    } -Throttle 30 -runspacetimeout 40 
+}

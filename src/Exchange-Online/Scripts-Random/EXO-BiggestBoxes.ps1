@@ -1,0 +1,2 @@
+# Purpose: EXO-BiggestBoxes — 177.240.246.94 Online mailbox and mail flow administration.
+Get-Mailbox | Where-Object { $_.EmailAddresses -like "*.co.uk*" } | Get-MailboxStatistics | Select-Object displayname,totalitemsize -First 30 | Sort-Object totalitemsize -Descending | Export-Csv -Path C:\temp\Big_Boxes.csv

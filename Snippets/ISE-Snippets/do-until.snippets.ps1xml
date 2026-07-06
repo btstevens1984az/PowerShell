@@ -1,0 +1,66 @@
+﻿<?xml version='1.0' encoding='utf-8' ?>
+    <Snippets  xmlns='http://schemas.microsoft.com/PowerShell/Snippets'>
+        <Snippet Version='1.0.0'>
+            <Header>
+                <Title>do...until</Title>
+                <Description>loop with exit condition. Loops until exit condition is met.</Description>
+                <Shortcut>do2</Shortcut> 
+                <Keywords>scriptblock</Keywords>
+                <Author>ISESteroids</Author>
+                <DifficultyLevel>1</DifficultyLevel>
+                <Example>False</Example>
+                <SnippetTypes>
+                    <SnippetType>Expansion</SnippetType>
+                    <SnippetType>SurroundsWith</SnippetType>
+                    <SnippetType>Refactor</SnippetType>
+                </SnippetTypes>
+                <Requirements>
+                    <MinimumPowerShellVersion>1</MinimumPowerShellVersion>
+                    <RequiredModules></RequiredModules>
+                    <AdminPrivileges>False</AdminPrivileges>
+                    <ProcessorArchitecture>x86,x64</ProcessorArchitecture>
+                </Requirements>
+            </Header>
+            <Declarations>
+                <Literal>
+                   <ID><![CDATA[9;8;0]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[code to be looped]]></ToolTipStatusbar>
+                   <EncloseSelection>true</EncloseSelection>
+                   <SupportsSurroundsWith>true</SupportsSurroundsWith>
+                </Literal>
+                <Literal>
+                   <ID><![CDATA[30;1;0]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[Variable name]]></ToolTipStatusbar>
+                </Literal>
+                <Literal>
+                   <ID><![CDATA[33;2;0]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[Operator]]></ToolTipStatusbar>
+                </Literal>
+                <Literal>
+                   <ID><![CDATA[36;1;0]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[Value to compare against]]></ToolTipStatusbar>
+                </Literal>
+            </Declarations>
+
+
+            <Code>
+                <Script Language='PowerShell' CaretOffset='40'>
+                    <![CDATA[do
+{
+  #Content
+}
+until ($x -gt 0)
+]]>
+                </Script>
+            </Code>
+
+    </Snippet>
+</Snippets>

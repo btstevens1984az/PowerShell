@@ -1,0 +1,16 @@
+<Types>
+	<Type>
+		<Name>System.Array</Name>
+		<Members>
+			<ScriptMethod>
+				<Name>Sum</Name>
+				<Script>
+				$result=$null
+				foreach ($i in $this)
+				{ $result += $i}
+				$result
+				</Script>		
+			</ScriptMethod>
+		</Members>
+	</Type>
+</Types>

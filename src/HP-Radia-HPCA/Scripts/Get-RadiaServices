@@ -1,0 +1,47 @@
+<#
+.SYNOPSIS
+  Gets list of Radia services from C:\Temp\HostsNotInPatchReport.txt or by hostname.
+  
+.DESCRIPTION
+  If you are not familiar with HPCA, I'd advise not to use this function as it will not pertain to you.
+  Please change your HPCA directories in the script as needed.
+  
+.PARAMETER InitialDirectory
+  Place Get-HPCAErrorCode.ps1 in your functions library to preload.
+  
+.PARAMETER Add
+  $ComputerName = Hostname of target computer.
+
+    Release Date: 	    2017-12-21
+    Current Version: 	    02.28.18
+
+.EXAMPLES  
+  Get-RadiaServices Hostname
+  
+  Get-RadiaServices Hostname1,Hostname2,Hostname3
+  
+  Get-Content Hostnames.txt | ForEach-Object {Get-RadiaServices $_}
+#>
+
+Function Get-RadiaServices {
+	param
+	(
+		[Parameter(Mandatory = $false, ValueFromPipeline = $true)]
+		[String[]]$Computername
+	)
+	{
+		$Computers = Get-Content C:\Temp\HostsNotInPatchReport.txt
+		$GetRadiaServices = Get-Service -ServiceName Radstgms, Radexecd, Radsched, RpcSs, wuauserv -ComputerName $Computername -ErrorAction SilentlyContinue
+		Foreach ($Computername in $ComputerNames)
+		{
+			if (Test-Connection -ComputerName $Computername -Count 1 -Quiet)
+			{
+				Write-Host "$Computername $GetRadiaServices | Select-Object -Property DisplayName, ServiceName, StartType, Status | Sort-Object -Property ServiceName | Format-Table -AutoSize" -ForegroundColor Cyan
+			}
+			else
+			{
+				Write-Host "$Computername is not Online" -ForegroundColor Red
+			}
+		}
+	}
+} #get-service -ServiceName Radstgms,Radexecd,Radsched,RpcSs,wuauserv -ComputerName $cn -ErrorAction SilentlyContinue | Select-Object -Property DisplayName, ServiceName, StartType, Status | Sort-Object -Property ServiceName | Format-Table -AutoSize

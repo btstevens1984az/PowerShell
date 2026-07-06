@@ -1,0 +1,28 @@
+
+
+FilePath          : C:\Users\$env:USERNAME\Downloads\
+Identity          : NT AUTHORITY\SYSTEM
+Right             : FullControl
+Access            : Allow
+Inherited         : True
+Inheritance Flags : ContainerInherit, ObjectInherit
+Propagation Flags : None
+
+FilePath          : C:\Users\$env:USERNAME\Downloads\
+Identity          : BUILTIN\Administrators
+Right             : FullControl
+Access            : Allow
+Inherited         : True
+Inheritance Flags : ContainerInherit, ObjectInherit
+Propagation Flags : None
+
+FilePath          : C:\Users\$env:USERNAME\Downloads\
+Identity          : YOURDOMAIN\username
+Right             : FullControl
+Access            : Allow
+Inherited         : True
+Inheritance Flags : ContainerInherit, ObjectInherit
+Propagation Flags : None
+
+
+

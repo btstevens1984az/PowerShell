@@ -1,0 +1,93 @@
+﻿<?xml version='1.0' encoding='utf-8' ?>
+    <Snippets  xmlns='http://schemas.microsoft.com/PowerShell/Snippets'>
+        <Snippet Version='1.0.0'>
+            <Header>
+                <Title>full example</Title>
+                <Description></Description>
+                <Shortcut></Shortcut> 
+                <Keywords>ScriptBlock,Editor</Keywords>
+                <Author>Tobias</Author>
+                <DifficultyLevel>1</DifficultyLevel>
+                <Example>False</Example>
+                <SnippetTypes>
+                    <SnippetType>Expansion</SnippetType>
+                </SnippetTypes>
+                <Requirements>
+                    <MinimumPowerShellVersion>5</MinimumPowerShellVersion>
+                    <RequiredModules></RequiredModules>
+                    <AdminPrivileges>False</AdminPrivileges>
+                    <ProcessorArchitecture>x86,x64</ProcessorArchitecture>
+                </Requirements>
+            </Header>
+
+            <Code>
+                <Script Language='PowerShell' CaretOffset='1565'>
+                    <![CDATA[# based on work published by PowerShell MVP Keith Hill
+# https://rkeithhill.wordpress.com/
+enum Suit { Clubs; Diamonds; Hearts; Spades }
+ 
+class Card {
+    [Suit]$Suit
+    [string]$Rank
+    [int]$Value
+ 
+    Card($s, $r, $v) {
+        $this.Suit = $s
+        $this.Rank = $r
+        $this.Value = $v
+    }
+ 
+    [string] ToString() {
+       return ('{0} of {1}' -f $this.Rank, $this.Suit)
+    }
+}
+class Deck {
+   hidden [Card[]]$Cards
+   hidden [int]$Index
+ 
+   Deck() {
+      $this.Index = 0
+      $ranks = 'Ace','2','3','4','5','6','7','8','9','10','Jack','Queen','King'
+      $this.Cards = 0..3 | Foreach { $suit = $_; 0..12 | Foreach { 
+            $num = if ($_ -eq 0) {11} elseif ($_ -ge 10) {10} else {$_ + 1}
+            [Card]::new([Suit]$suit, $ranks[$_], $num)
+         }
+      }
+      $this.Shuffle()
+   }
+ 
+   [void] Shuffle() {
+      for($i = $this.Cards.Length - 1; $i -gt 0; --$i) {
+         $rndNdx = Get-Random -Maximum ($i+1)
+         $temp = $this.Cards[$i]
+         $this.Cards[$i] = $this.Cards[$rndNdx]
+         $this.Cards[$rndNdx] = $temp
+      }
+   }
+ 
+   [Card] DrawCard() {
+      if ($this.Index -gt $this.Cards.Length - 1) {
+         $this.Shuffle()
+         $this.Index = 0
+         Write-Host ($this.Pipe.WriteLine('Deck empty, reshuffling deck'))
+      }
+      return $this.Cards[$this.Index++]
+   }
+ 
+   [string] ToString() {
+      $OFS = ', '
+      return $this.Cards
+   }
+}
+
+$deck = [Deck]::new()
+$deck.Shuffle()
+for ($x = 1; $x -lt 7; $x ++) 
+{
+   $deck.DrawCard()
+}]]>
+                </Script>
+            </Code>
+
+    </Snippet>
+</Snippets>

@@ -1,0 +1,30 @@
+﻿<?xml version='1.0' encoding='utf-8' ?>
+    <Snippets  xmlns='http://schemas.microsoft.com/PowerShell/Snippets'>
+        <Snippet Version='1.0.0'>
+            <Header>
+                <Title>Test if process is 64bit</Title>
+                <Description>Tests whether the current script runs in a 64bit environment</Description>
+                <Shortcut></Shortcut> 
+                <Keywords>Editor,Console</Keywords>
+                <Author>Tobias Weltner</Author>
+                <DifficultyLevel>4</DifficultyLevel>
+                <Example>False</Example>
+                <SnippetTypes>
+                    <SnippetType>Expansion</SnippetType>
+                </SnippetTypes>
+                <Requirements>
+                    <MinimumPowerShellVersion>1</MinimumPowerShellVersion>
+                    <RequiredModules></RequiredModules>
+                    <AdminPrivileges>False</AdminPrivileges>
+                    <ProcessorArchitecture>x86,x64</ProcessorArchitecture>
+                </Requirements>
+            </Header>
+
+            <Code>
+                <Script Language='PowerShell' CaretOffset='29'>
+                    <![CDATA[[Environment]::Is64BitProcess]]>
+                </Script>
+            </Code>
+
+    </Snippet>
+</Snippets>

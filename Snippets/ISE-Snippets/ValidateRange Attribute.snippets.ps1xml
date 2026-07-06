@@ -1,0 +1,45 @@
+﻿<?xml version='1.0' encoding='utf-8' ?>
+    <Snippets  xmlns='http://schemas.microsoft.com/PowerShell/Snippets'>
+        <Snippet Version='1.0.0'>
+            <Header>
+                <Title>ValidateRange Attribute</Title>
+                <Description>defines a ValidateRange attribute that you can use to decorate numeric parameters and limit them to a selected range of valid choices.</Description>
+                <Shortcut>[ValidateR</Shortcut> 
+                <Keywords>Attribute</Keywords>
+                <Author>Tobias</Author>
+                <DifficultyLevel>5</DifficultyLevel>
+                <Example>False</Example>
+                <SnippetTypes>
+                    <SnippetType>Expansion</SnippetType>
+                </SnippetTypes>
+                <Requirements>
+                    <MinimumPowerShellVersion>1</MinimumPowerShellVersion>
+                    <RequiredModules></RequiredModules>
+                    <AdminPrivileges>False</AdminPrivileges>
+                    <ProcessorArchitecture>x86,x64</ProcessorArchitecture>
+                </Requirements>
+            </Header>
+            <Declarations>
+                <Literal>
+                   <ID><![CDATA[15;1;0]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[minimum value]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[minimum value]]></ToolTipStatusbar>
+                </Literal>
+                <Literal>
+                   <ID><![CDATA[17;3;0]]></ID>
+                   <Default></Default>
+                   <ToolTip><![CDATA[maximum value]]></ToolTip>
+                   <ToolTipStatusbar><![CDATA[maximum value]]></ToolTipStatusbar>
+                </Literal>
+            </Declarations>
+
+
+            <Code>
+                <Script Language='PowerShell' CaretOffset='22'>
+                    <![CDATA[[ValidateRange(1,100)]]]>
+                </Script>
+            </Code>
+
+    </Snippet>
+</Snippets>
