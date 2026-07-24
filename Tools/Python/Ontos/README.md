@@ -14,22 +14,38 @@ Try:
 - `ancient moths chase a golden moon`
 - `fragile glass gardens bloom then shatter`
 
-## How to run
+## How to run (Safari / Mac)
 
-Use **forward slashes** (this works in PowerShell on Linux too):
+`127.0.0.1` only works if Python and Safari are on the **same computer**.
+If you start ONTOS in a remote Cursor cloud `/workspace` terminal, Safari on
+your Mac cannot connect to that server.
 
-```powershell
+### Easiest: open the HTML file on your Mac
+
+1. Make sure this repo (or at least `Tools/Python/Ontos/ontos.html`) is on your Mac.
+2. In Finder, double-click `Tools/Python/Ontos/ontos.html`  
+   — or in Safari use **File → Open File…**
+
+No Python server required.
+
+### Or run Python on your Mac
+
+In Terminal **on your Mac** (not only in a remote cloud agent):
+
+```bash
 python3 Tools/Python/Ontos/ontos.py
 ```
 
-On Windows:
+That writes/refreshes `ontos.html` and opens it as a `file://` page in your
+browser. You can close the terminal afterward.
 
-```powershell
-py Tools/Python/Ontos/ontos.py
+### Optional local server
+
+Only if you want `http://127.0.0.1` (same machine as the browser):
+
+```bash
+python3 Tools/Python/Ontos/ontos.py --serve
 ```
-
-Your browser should open to `http://127.0.0.1:8844/`. If it doesn’t, paste that
-URL manually. Press `Ctrl+C` in the terminal to stop.
 
 ## How it works
 
@@ -43,5 +59,5 @@ URL manually. Press `Ctrl+C` in the terminal to stop.
 
 ## Requirements
 
-Python 3 standard library only (`http.server`, `webbrowser`). A modern browser
-with canvas support.
+Python 3 standard library only (optional launcher). A modern browser with canvas
+support (Safari, Chrome, Edge, Firefox).
