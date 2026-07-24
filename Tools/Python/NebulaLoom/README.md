@@ -3,27 +3,47 @@
 A small generative space-art playground written in Python.
 
 Weave glowing aurora ribbons, plant gravity wells, and launch comets across a
-living starfield. Uses only the Python standard library (`tkinter`) — no pip
-packages required.
+living starfield. Uses only the Python standard library — no pip packages.
 
 ## How to run
 
-1. Install **Python 3** if you do not have it yet.
-2. On Linux you may also need the Tk bindings:
+From the repo root:
 
-   ```bash
-   # Debian / Ubuntu
-   sudo apt-get install python3-tk
-   ```
+```bash
+python3 Tools/Python/NebulaLoom/nebula_loom.py
+```
 
-   On Windows and macOS, `tkinter` usually ships with the official Python installer.
-3. From this folder, run:
+Or from this folder:
 
-   ```bash
-   python3 nebula_loom.py
-   ```
+```bash
+python3 nebula_loom.py
+```
 
-   On Windows you can also double-click the file, or run `py nebula_loom.py`.
+On Windows, if `python3` is not found, try:
+
+```powershell
+py Tools\Python\NebulaLoom\nebula_loom.py
+```
+
+You can also double-click `Run Nebula Loom.bat`.
+
+### If no window appears
+
+Use the browser version (opens Chrome/Edge/Firefox automatically):
+
+```bash
+python3 Tools/Python/NebulaLoom/nebula_loom.py --web
+```
+
+This is the right choice for **WSL**, **SSH/remote**, or any environment without a
+desktop GUI. The script also auto-falls back to `--web` when it cannot open a
+desktop window.
+
+### Linux Tk install (desktop mode only)
+
+```bash
+sudo apt-get install python3-tk
+```
 
 ## Controls
 
