@@ -15,11 +15,11 @@ Run (use forward slashes):
 from __future__ import annotations
 
 import argparse
-import os
 import sys
 import webbrowser
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import Optional
+from urllib.parse import urlparse
 
 
 PAGE = r"""<!DOCTYPE html>
@@ -144,7 +144,7 @@ PAGE = r"""<!DOCTYPE html>
     padding: 0.85rem 1rem;
   }
   #utterance::placeholder { color: #5d6a7c; }
-  #speak {
+  #speak-btn {
     border: 0; cursor: pointer;
     background: var(--phosphor);
     color: #10140a;
@@ -157,7 +157,7 @@ PAGE = r"""<!DOCTYPE html>
     border-radius: 2px;
     transition: transform 0.15s ease, filter 0.15s ease;
   }
-  #speak:hover { filter: brightness(1.08); transform: translateY(-1px); }
+  #speak-btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
   .meta {
     display: flex; flex-wrap: wrap; gap: 0.75rem 1.25rem;
     justify-content: space-between; align-items: center;
@@ -200,7 +200,7 @@ PAGE = r"""<!DOCTYPE html>
     header { flex-direction: column; align-items: flex-start; }
     .tag { text-align: left; max-width: none; }
     .composer { grid-template-columns: 1fr; }
-    #speak { padding: 0.9rem; }
+    #speak-btn { padding: 0.9rem; }
     .hud { display: none; }
   }
 </style>
@@ -217,9 +217,9 @@ PAGE = r"""<!DOCTYPE html>
     <p>nouns become bodies · adjectives shape them · verbs give them laws</p>
   </div>
   <footer>
-    <form class="composer" id="form" autocomplete="off">
-      <input id="utterance" maxlength="160" placeholder='try: lonely satellites broadcast warm static'/>
-      <button id="speak" type="submit">Speak</button>
+    <form class="composer" id="form" autocomplete="off" action="/" method="get" onsubmit="return submitUtterance(event);">
+      <input id="utterance" name="q" maxlength="160" placeholder='try: lonely satellites broadcast warm static'/>
+      <button id="speak-btn" type="button">Speak</button>
     </form>
     <div class="meta">
       <div class="chips" id="examples"></div>
@@ -262,7 +262,7 @@ EXAMPLES.forEach((text) => {
   b.title = text;
   b.addEventListener("click", () => {
     utterance.value = text;
-    speak(text);
+    speakWorld(text);
   });
   examplesEl.appendChild(b);
 });
@@ -559,7 +559,7 @@ function placeEntities(entities) {
   });
 }
 
-function speak(sentence) {
+function speakWorld(sentence) {
   const text = (sentence || "").trim();
   if (!text) return;
   ensureAudio();
@@ -589,9 +589,18 @@ function speak(sentence) {
   });
 }
 
-document.getElementById("form").addEventListener("submit", (ev) => {
-  ev.preventDefault();
-  speak(utterance.value);
+function submitUtterance(ev) {
+  if (ev) ev.preventDefault();
+  speakWorld(utterance.value);
+  return false;
+}
+document.getElementById("form").addEventListener("submit", submitUtterance);
+document.getElementById("speak-btn").addEventListener("click", submitUtterance);
+utterance.addEventListener("keydown", (ev) => {
+  if (ev.key === "Enter") {
+    ev.preventDefault();
+    submitUtterance(ev);
+  }
 });
 
 // --- Simulation -------------------------------------------------------------
@@ -960,16 +969,29 @@ def run(port: int = 8844) -> int:
     html = PAGE.encode("utf-8")
 
     class Handler(BaseHTTPRequestHandler):
-        def do_GET(self):  # noqa: N802
-            if self.path not in ("/", "/index.html", "/ontos"):
-                self.send_error(404)
-                return
+        def _serve_app(self) -> None:
             self.send_response(200)
             self.send_header("Content-Type", "text/html; charset=utf-8")
             self.send_header("Content-Length", str(len(html)))
             self.send_header("Cache-Control", "no-store")
             self.end_headers()
             self.wfile.write(html)
+
+        def do_GET(self):  # noqa: N802
+            path = urlparse(self.path).path.rstrip("/") or "/"
+            # Ignore query strings (native form GETs used to 404 here).
+            if path in ("/", "/index.html", "/ontos"):
+                self._serve_app()
+                return
+            if path == "/favicon.ico":
+                self.send_response(204)
+                self.end_headers()
+                return
+            self.send_error(404)
+
+        def do_POST(self):  # noqa: N802
+            # If a form ever posts, re-show the app instead of erroring.
+            self._serve_app()
 
         def log_message(self, fmt: str, *args) -> None:
             return
