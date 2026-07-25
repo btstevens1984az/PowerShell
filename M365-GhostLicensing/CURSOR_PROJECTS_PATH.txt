@@ -1,0 +1,15 @@
+Intended local path on your Mac:
+
+  /Users/brandonstevens/Cursor Projects/M365-GhostLicensing
+
+This cloud agent workspace does not mount that macOS path.
+The module lives at:
+
+  /workspace/M365-GhostLicensing
+
+A convenience symlink was also created at:
+
+  /home/ubuntu/Cursor Projects/M365-GhostLicensing -> /workspace/M365-GhostLicensing
+
+When you pull the branch on your Mac, copy or clone M365-GhostLicensing into
+"/Users/brandonstevens/Cursor Projects/M365-GhostLicensing".
