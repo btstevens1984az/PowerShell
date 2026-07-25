@@ -2,7 +2,7 @@
     RootModule             = 'M365-GhostLicensing.psm1'
     ModuleVersion          = '0.1.0'
     GUID                   = 'b7e3c9a1-4f2d-4a8e-9c31-6d0f8e2a5b17'
-    Author                 = 'Brad Hurt / btstevens1984az'
+    Author                 = 'btstevens1984az'
     CompanyName            = 'btstevens1984az'
     Copyright              = '(c) 2026 btstevens1984az. MIT License.'
     Description            = @'
@@ -45,7 +45,7 @@ exclusions, and audit logging. Includes a full Contoso demo tenant — no Graph 
                 'Automation', 'FinOps'
             )
             LicenseUri   = 'https://opensource.org/licenses/MIT'
-            ProjectUri   = 'https://github.com/btstevens1984az/PowerShell'
+            ProjectUri   = 'https://github.com/btstevens1984az/M365-GhostLicensing'
             ReleaseNotes = @'
 ## 0.1.0
 - Initial release candidate (not published to PowerShell Gallery until approved)
