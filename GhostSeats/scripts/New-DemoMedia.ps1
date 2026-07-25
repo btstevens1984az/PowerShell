@@ -34,20 +34,25 @@ function Invoke-ChromeRecord {
     $chrome = (Get-Command google-chrome -ErrorAction SilentlyContinue).Source
     if (-not $chrome) { throw 'google-chrome not found' }
 
-    $profile = Join-Path $artifactRoot "chrome-$WindowName"
-    New-Item -ItemType Directory -Path $profile -Force | Out-Null
+    $chromeProfile = Join-Path $artifactRoot "chrome-$WindowName"
+    New-Item -ItemType Directory -Path $chromeProfile -Force | Out-Null
 
     $chromeArgs = @(
-        "--user-data-dir=$profile"
+        "--user-data-dir=$chromeProfile"
         '--no-first-run'
-        '--disable-features=TranslateUI'
+        '--no-default-browser-check'
+        '--disable-features=TranslateUI,ChromeWhatsNewUI'
+        '--disable-infobars'
+        '--disable-notifications'
+        '--disable-component-update'
+        '--disable-background-networking'
         '--window-size=1280,800'
         '--window-position=40,40'
         "--app=$Url"
     )
 
     $proc = Start-Process -FilePath $chrome -ArgumentList $chromeArgs -PassThru
-    Start-Sleep -Seconds 2
+    Start-Sleep -Seconds 2.5
 
     # Record the whole display region Chrome occupies (DISPLAY :1)
     $ffmpegArgs = @(
