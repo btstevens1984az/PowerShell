@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>GhostSeats Demo</title>
+<style>
+  :root {
+    --bg: #0b1118;
+    --panel: #121a24;
+    --text: #eaf2ff;
+    --muted: #8ea0b5;
+    --accent: #3dd6c6;
+    --warn: #ffb86b;
+    --bad: #ff7b7b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    color: var(--text);
+    font-family: "Segoe UI", "Helvetica Neue", sans-serif;
+    background:
+      radial-gradient(900px 500px at 15% -10%, rgba(61,214,198,.22), transparent 55%),
+      radial-gradient(700px 420px at 90% 0%, rgba(122,162,255,.18), transparent 50%),
+      var(--bg);
+    overflow: hidden;
+  }
+  .stage { width: 1280px; height: 720px; margin: 0 auto; padding: 36px 48px; position: relative; }
+  .brand { font-size: 42px; font-weight: 800; letter-spacing: -0.04em; }
+  .brand span { color: var(--accent); }
+  .tag { color: var(--muted); margin-top: 8px; font-size: 20px; }
+  .meter {
+    margin: 28px 0 18px;
+    height: 10px;
+    background: #1c2733;
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .meter > i {
+    display: block; height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--accent), #7aa2ff);
+    animation: fill 1.4s ease-out forwards;
+  }
+  @keyframes fill { to { width: 100%; } }
+  .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 10px; }
+  .card {
+    background: var(--panel);
+    border: 1px solid #243142;
+    border-radius: 16px;
+    padding: 18px;
+    opacity: 0;
+    transform: translateY(12px);
+    animation: up .5s ease forwards;
+  }
+  .card:nth-child(1) { animation-delay: .3s; }
+  .card:nth-child(2) { animation-delay: .55s; }
+  .card:nth-child(3) { animation-delay: .8s; }
+  .card:nth-child(4) { animation-delay: 1.05s; }
+  @keyframes up { to { opacity: 1; transform: none; } }
+  .label { color: var(--muted); font-size: 14px; }
+  .value { font-size: 34px; font-weight: 760; margin-top: 8px; }
+  .value.accent { color: var(--accent); }
+  .value.warn { color: var(--warn); }
+  .value.bad { color: var(--bad); }
+  .list {
+    margin-top: 22px;
+    background: var(--panel);
+    border: 1px solid #243142;
+    border-radius: 16px;
+    padding: 8px 0;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 1.2fr 1.6fr .9fr .7fr;
+    gap: 10px;
+    padding: 12px 18px;
+    border-bottom: 1px solid #1c2733;
+    font-size: 18px;
+    opacity: 0;
+    animation: up .4s ease forwards;
+  }
+  .row:nth-child(1) { animation-delay: 1.3s; }
+  .row:nth-child(2) { animation-delay: 1.55s; }
+  .row:nth-child(3) { animation-delay: 1.8s; }
+  .row:nth-child(4) { animation-delay: 2.05s; }
+  .row:last-child { border-bottom: 0; }
+  .pill {
+    display: inline-block; padding: 3px 10px; border-radius: 999px;
+    font-size: 13px; font-weight: 700;
+    background: rgba(255,183,107,.12); color: var(--warn);
+  }
+  .pill.bad { background: rgba(255,123,123,.12); color: var(--bad); }
+  .pill.accent { background: rgba(61,214,198,.12); color: var(--accent); }
+  .footer {
+    position: absolute; left: 48px; right: 48px; bottom: 28px;
+    display: flex; justify-content: space-between; color: var(--muted); font-size: 16px;
+  }
+  .cta {
+    color: var(--text);
+    background: linear-gradient(90deg, rgba(61,214,198,.2), rgba(122,162,255,.2));
+    border: 1px solid #335;
+    padding: 8px 14px; border-radius: 999px;
+    opacity: 0; animation: up .5s ease forwards 2.4s;
+  }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="brand">Ghost<span>Seats</span></div>
+    <div class="tag">Contoso Demo · scanning licensed users for waste…</div>
+    <div class="meter"><i></i></div>
+    <div class="cards">
+      <div class="card"><div class="label">Ghost seats</div><div class="value">11</div></div>
+      <div class="card"><div class="label">Monthly waste</div><div class="value accent">$482</div></div>
+      <div class="card"><div class="label">Annual waste</div><div class="value accent">$5,784</div></div>
+      <div class="card"><div class="label">Disabled + licensed</div><div class="value bad">3</div></div>
+    </div>
+    <div class="list">
+      <div class="row"><div>Alex Former</div><div>alex.former@contoso.demo</div><div><span class="pill bad">Disabled</span></div><div>$67.40</div></div>
+      <div class="row"><div>Riley Quinn</div><div>riley.quinn@contoso.demo</div><div><span class="pill">Inactive</span></div><div>$102.00</div></div>
+      <div class="row"><div>Onboarding Seat</div><div>newhire.pending@contoso.demo</div><div><span class="pill warn">Never signed in</span></div><div>$67.40</div></div>
+      <div class="row"><div>External Partner</div><div>partner@fabrikam.demo</div><div><span class="pill accent">Guest</span></div><div>$36.00</div></div>
+    </div>
+    <div class="footer">
+      <div>Demo environment · no Microsoft Graph calls</div>
+      <div class="cta">Start-GhostSeatDemo</div>
+    </div>
+  </div>
+</body>
+</html>

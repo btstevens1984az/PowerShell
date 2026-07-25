@@ -1,0 +1,10 @@
+# Local artifacts
+*.log
+*.jsonl
+out/
+reports/
+approvals/
+demos/media/*.tmp
+.DS_Store
+TestResults/
+*.nupkg

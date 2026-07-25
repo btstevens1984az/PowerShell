@@ -1,0 +1,15 @@
+Intended local path on your Mac:
+
+  /Users/brandonstevens/Cursor Projects/GhostSeats
+
+This cloud agent workspace does not mount that macOS path.
+The module lives at:
+
+  /workspace/GhostSeats
+
+A convenience symlink was also created at:
+
+  /home/ubuntu/Cursor Projects/GhostSeats -> /workspace/GhostSeats
+
+When you pull the branch on your Mac, copy or clone GhostSeats into
+"/Users/brandonstevens/Cursor Projects/GhostSeats".

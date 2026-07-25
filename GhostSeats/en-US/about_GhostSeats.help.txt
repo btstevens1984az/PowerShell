@@ -1,0 +1,49 @@
+TOPIC
+    about_GhostSeats
+
+SHORT DESCRIPTION
+    GhostSeats finds unused Microsoft 365 licenses ("ghost seats") and helps
+    IT reclaim them safely with reports, approval lists, and automation.
+
+LONG DESCRIPTION
+    Ghost seats are assigned licenses that nobody is using — disabled accounts
+    that still have E3/E5, new hires who never signed in, inactive users, or
+    guests holding member SKUs.
+
+    GhostSeats helps IT departments:
+      - Discover waste with clear categories and cost estimates
+      - Export HTML/CSV/JSON reports for leadership
+      - Generate approval CSVs for change control
+      - Automate reclaim with WhatIf, exclusions, and audit logging
+      - Demo everything on a Contoso synthetic tenant (no Graph required)
+
+QUICK START (DEMO)
+    Import-Module ./GhostSeats/GhostSeats.psd1
+    Start-GhostSeatDemo -OpenReport
+
+QUICK START (LIVE TENANT)
+    Install-Module Microsoft.Graph.Authentication, Microsoft.Graph.Users, Microsoft.Graph.Identity.DirectoryManagement -Scope CurrentUser
+    Import-Module ./GhostSeats/GhostSeats.psd1
+    Connect-GhostSeats
+    Get-GhostSeat | Export-GhostSeatReport -Path ./reports -Open
+
+GRAPH PERMISSIONS
+    Delegated / application:
+      User.Read.All
+      Directory.Read.All
+      Organization.Read.All
+      AuditLog.Read.All   (for SignInActivity)
+    For reclaim:
+      User.ReadWrite.All  (or license assignment role equivalent)
+
+SAFETY
+    - Reclaim requires an approval CSV (Approved=true) or -Force with explicit UPNs
+    - Supports -WhatIf / -Confirm
+    - Excludes break-glass, service accounts, and Executive/Legal by default
+    - Demo mode never calls Microsoft Graph
+
+SEE ALSO
+    Connect-GhostSeats
+    Get-GhostSeat
+    Invoke-GhostSeatAutomation
+    Start-GhostSeatDemo
