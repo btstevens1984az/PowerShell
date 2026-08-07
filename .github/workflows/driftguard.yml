@@ -1,0 +1,2 @@
+# Also place a workflow at repo root for PowerShell monorepo CI path
+# Canonical workflow copied to /.github/workflows/driftguard.yml by setup script if needed.

@@ -1,0 +1,16 @@
+# aws-edge.yaml
+version: "0.9.0"
+name: aws-edge-golden
+cloud:
+  provider: aws
+  resources:
+    - type: security_group
+      id: sg-0abc123
+      ingress:
+        - proto: tcp
+          port: 22
+          cidr: 10.0.0.0/8
+    - type: s3_bucket
+      name: company-logs
+      encryption: AES256
+      public_access_block: true

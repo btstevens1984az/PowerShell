@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a2228"/>
+      <stop offset="100%" stop-color="#243038"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="360" fill="url(#bg)"/>
+  <path d="M80 240 C 260 80, 420 300, 620 160 S 980 60, 1120 180" stroke="#14b8a6" stroke-width="6" opacity="0.9"/>
+  <path d="M80 280 C 300 160, 460 320, 700 200 S 960 120, 1120 220" stroke="#f97316" stroke-width="4" opacity="0.75"/>
+  <text x="80" y="120" fill="#ffffff" font-family="Georgia, serif" font-size="64" font-weight="600">DriftGuard</text>
+  <text x="80" y="170" fill="#9bb3bd" font-family="Arial, sans-serif" font-size="24">Configuration drift detection &amp; remediation</text>
+</svg>

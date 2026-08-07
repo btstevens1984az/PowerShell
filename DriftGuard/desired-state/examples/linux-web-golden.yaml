@@ -1,0 +1,30 @@
+# linux-web-golden.yaml
+# Golden baseline for Linux web tier (SSH + nginx)
+version: "1.2.0"
+name: linux-web-golden
+files:
+  /etc/ssh/sshd_config:
+    content: |
+      # DriftGuard golden
+      PermitRootLogin no
+      PasswordAuthentication no
+      Port 22
+    mode: "0o600"
+  /etc/nginx/nginx.conf:
+    content: |
+      user www-data;
+      worker_processes auto;
+      events { worker_connections 1024; }
+packages:
+  required:
+    - name: openssh-server
+      version: "1:9.6p1-3"
+    - name: nginx
+      version: "1.24.0-2"
+services:
+  sshd.service:
+    active: active
+    sub: running
+  nginx.service:
+    active: active
+    sub: running

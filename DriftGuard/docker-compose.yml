@@ -1,0 +1,40 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: driftguard
+      POSTGRES_PASSWORD: driftguard
+      POSTGRES_DB: driftguard
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U driftguard -d driftguard"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: ./backend
+    environment:
+      DATABASE_URL: postgresql+psycopg2://driftguard:driftguard@db:5432/driftguard
+      SECRET_KEY: change-me-in-production-use-openssl-rand-hex-32
+      SEED_DEMO_DATA: "true"
+      CORS_ORIGINS: http://localhost:5173,http://localhost:3000,http://localhost
+      REMEDIATION_DRY_RUN_DEFAULT: "true"
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web:
+    build: ./frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - api
+
+volumes:
+  pgdata:

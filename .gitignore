@@ -1,1 +1,9 @@
 __pycache__/
+
+# DriftGuard local
+DriftGuard/backend/.venv/
+DriftGuard/backend/**/__pycache__/
+DriftGuard/backend/*.db
+DriftGuard/backend/test_*.db
+DriftGuard/frontend/node_modules/
+DriftGuard/frontend/dist/
