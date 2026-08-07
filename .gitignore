@@ -7,3 +7,4 @@ DriftGuard/backend/*.db
 DriftGuard/backend/test_*.db
 DriftGuard/frontend/node_modules/
 DriftGuard/frontend/dist/
+DriftGuard/frontend/tsconfig.tsbuildinfo

@@ -10,6 +10,14 @@ DriftGuard snapshots configuration (files, packages, services, registry stubs, c
 
 ---
 
+## Screenshots
+
+| Landing | Dashboard | Diff viewer |
+|---------|-----------|-------------|
+| ![Landing](media/screenshots/01_landing_page.png) | ![Dashboard](media/screenshots/03_dashboard.png) | ![Diff](media/screenshots/06_drift_detail_diff.png) |
+
+---
+
 ## Demo videos
 
 Ten short walkthroughs are embedded on the product landing page (`/`):
