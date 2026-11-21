@@ -32,9 +32,9 @@ foreach ($file in Get-ChildItem -Path $catalogDir -Filter '*.ps1' -ErrorAction S
 
 Export-ModuleMember -Function @(
     'New-SynapsePlan'
-    'Review-SynapsePlan'
+    'Confirm-SynapsePlan'
     'Start-SynapseFlow'
     'Get-SynapseFlow'
-    'Replan-SynapseFlow'
+    'Repair-SynapseFlow'
     'Export-SynapseReport'
 )

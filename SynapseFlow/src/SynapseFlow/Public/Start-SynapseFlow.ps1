@@ -3,7 +3,7 @@ function Start-SynapseFlow {
     .SYNOPSIS
         Executes a reviewed plan: ready stages run in parallel up to MaxParallelStages.
     .PARAMETER Plan
-        Reviewed plan from Review-SynapsePlan.
+        Reviewed plan from Confirm-SynapsePlan.
     .PARAMETER MaxParallelStages
         Concurrency cap for ready stages in each DAG wave. Default 2.
     .PARAMETER Simulation
@@ -29,12 +29,12 @@ function Start-SynapseFlow {
 
     process {
         if (-not $Plan.Reviewed) {
-            throw 'Plan must be Reviewed before start. Pipe through Review-SynapsePlan first.'
+            throw 'Plan must be Reviewed before start. Pipe through Confirm-SynapsePlan first.'
         }
 
         $destructive = @($Plan.Stages | Where-Object { $_.Destructive -eq $true })
         if ($destructive.Count -gt 0 -and -not $Plan.DestructiveApproved) {
-            throw 'Destructive stages present but not approved. Use Review-SynapsePlan -ApproveDestructive.'
+            throw 'Destructive stages present but not approved. Use Confirm-SynapsePlan -ApproveDestructive.'
         }
 
         Assert-StageCatalog -StageName @($Plan.Stages | ForEach-Object { $_.Name }) | Out-Null

@@ -13,8 +13,8 @@ Write-Host '=== New-SynapsePlan (intent heuristic) ===' -ForegroundColor Cyan
 $plan = New-SynapsePlan -Intent 'discover services, restart spooler, then verify health' -Targets @('web-01', 'db-02')
 $plan | ConvertTo-Json -Depth 6 | Write-Host
 
-Write-Host '=== Review-SynapsePlan (approve destructive) ===' -ForegroundColor Cyan
-$reviewed = $plan | Review-SynapsePlan -ApproveDestructive
+Write-Host '=== Confirm-SynapsePlan (approve destructive) ===' -ForegroundColor Cyan
+$reviewed = $plan | Confirm-SynapsePlan -ApproveDestructive
 Write-Host "Reviewed=$($reviewed.Reviewed) Status=$($reviewed.Status)"
 
 Write-Host '=== Start-SynapseFlow (Simulation) ===' -ForegroundColor Cyan

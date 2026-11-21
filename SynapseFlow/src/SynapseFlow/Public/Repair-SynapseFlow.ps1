@@ -1,4 +1,4 @@
-function Replan-SynapseFlow {
+function Repair-SynapseFlow {
     <#
     .SYNOPSIS
         Regenerates failed branches of a flow into a new Draft plan ready for review.
@@ -10,7 +10,7 @@ function Replan-SynapseFlow {
     .PARAMETER FlowId
         Session FlowId to look up.
     .EXAMPLE
-        Replan-SynapseFlow -Flow $flow | Review-SynapsePlan -ApproveDestructive
+        Repair-SynapseFlow -Flow $flow | Confirm-SynapsePlan -ApproveDestructive
     #>
     [CmdletBinding(DefaultParameterSetName = 'Flow')]
     [OutputType([pscustomobject])]

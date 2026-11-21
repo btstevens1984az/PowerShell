@@ -10,10 +10,10 @@
     CompatiblePSEditions = @('Core')
     FunctionsToExport    = @(
         'New-SynapsePlan'
-        'Review-SynapsePlan'
+        'Confirm-SynapsePlan'
         'Start-SynapseFlow'
         'Get-SynapseFlow'
-        'Replan-SynapseFlow'
+        'Repair-SynapseFlow'
         'Export-SynapseReport'
     )
     CmdletsToExport      = @()

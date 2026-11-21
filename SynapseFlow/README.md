@@ -35,7 +35,7 @@ $plan = New-SynapsePlan `
     -Targets @('web-01', 'db-02')
 
 # 2. Human review — destructive stages need explicit approval
-$plan = $plan | Review-SynapsePlan -ApproveDestructive
+$plan = $plan | Confirm-SynapsePlan -ApproveDestructive
 
 # 3. Execute ready stages in parallel (simulation-safe)
 $flow = Start-SynapseFlow -Plan $plan -MaxParallelStages 2 -Simulation
@@ -58,22 +58,22 @@ Intent / LLM stages
  New-SynapsePlan  ──►  DAG (JSON-serializable)
         │
         ▼
- Review-SynapsePlan  ──►  Reviewed (+ ApproveDestructive if needed)
+ Confirm-SynapsePlan  ──►  Reviewed (+ ApproveDestructive if needed)
         │
         ▼
  Start-SynapseFlow  ──►  parallel waves (MaxParallelStages)
         │                    └─ per-stage fanout to Targets
         ▼
- Get-SynapseFlow / Export-SynapseReport / Replan-SynapseFlow
+ Get-SynapseFlow / Export-SynapseReport / Repair-SynapseFlow
 ```
 
 | Cmdlet | Role |
 |--------|------|
 | `New-SynapsePlan` | Intent heuristic or explicit `-Stages` → DAG |
-| `Review-SynapsePlan` | Marks Reviewed; `-ApproveDestructive` for risky stages |
+| `Confirm-SynapsePlan` | Marks Reviewed; `-ApproveDestructive` for risky stages |
 | `Start-SynapseFlow` | Runs ready stages in parallel; `-Simulation` fanout |
 | `Get-SynapseFlow` | Session flow lookup |
-| `Replan-SynapseFlow` | Regenerates failed / skipped branches |
+| `Repair-SynapseFlow` | Regenerates failed / skipped branches |
 | `Export-SynapseReport` | Redacted JSON report |
 
 ### Catalog allowlist (only)
@@ -100,7 +100,7 @@ $stages = @(
 )
 
 $plan = New-SynapsePlan -Stages $stages
-$plan = $plan | Review-SynapsePlan -ApproveDestructive
+$plan = $plan | Confirm-SynapsePlan -ApproveDestructive
 $flow = Start-SynapseFlow -Plan $plan -Simulation
 ```
 
@@ -108,7 +108,7 @@ Guidance for agents:
 
 1. Emit **only** Catalog stage names.
 2. Use fictional hosts (`web-01`, `db-02`) unless the operator supplies targets.
-3. Always surface the plan for `Review-SynapsePlan` before start.
+3. Always surface the plan for `Confirm-SynapsePlan` before start.
 4. Prefer `-Simulation` until a human approves live execution.
 
 ---

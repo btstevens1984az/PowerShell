@@ -1,4 +1,4 @@
-function Review-SynapsePlan {
+function Confirm-SynapsePlan {
     <#
     .SYNOPSIS
         Marks a SynapseFlow plan as Reviewed. Destructive stages require -ApproveDestructive.
@@ -7,7 +7,7 @@ function Review-SynapsePlan {
     .PARAMETER ApproveDestructive
         Required when any stage has Destructive = $true (e.g. Restart-Spooler).
     .EXAMPLE
-        $plan | Review-SynapsePlan -ApproveDestructive
+        $plan | Confirm-SynapsePlan -ApproveDestructive
     #>
     [CmdletBinding()]
     [OutputType([pscustomobject])]

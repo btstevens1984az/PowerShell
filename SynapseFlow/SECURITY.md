@@ -9,7 +9,7 @@
 ## Design principles
 
 - **Catalog allowlist only.** Stages must resolve to functions shipped under `src/SynapseFlow/Catalog/`. Arbitrary script injection via stage names is rejected.
-- **Human review gate.** `Review-SynapsePlan` must mark a plan Reviewed before `Start-SynapseFlow`. Destructive catalog stages (for example `Restart-Spooler`) additionally require `-ApproveDestructive`.
+- **Human review gate.** `Confirm-SynapsePlan` must mark a plan Reviewed before `Start-SynapseFlow`. Destructive catalog stages (for example `Restart-Spooler`) additionally require `-ApproveDestructive`.
 - **Simulation mode.** Prefer `-Simulation` on `Start-SynapseFlow` during development and LLM-driven planning so catalog stages do not claim live side effects.
 - **Redaction.** `Export-SynapseReport` runs artifacts through `Redact-Artifact` to strip emails, home paths, and common secret key patterns before write-out.
 - **No telemetry.** SynapseFlow does not phone home, collect usage metrics, or upload plans.

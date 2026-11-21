@@ -58,20 +58,20 @@ Assert-True $threw 'Rejects non-catalog stage name'
 $destructivePlan = New-SynapsePlan -Intent 'restart spooler on web-01' -Targets @('web-01')
 $needsApprove = $false
 try {
-    $destructivePlan | Review-SynapsePlan | Out-Null
+    $destructivePlan | Confirm-SynapsePlan | Out-Null
 }
 catch {
     $needsApprove = $true
 }
 Assert-True $needsApprove 'Destructive plan requires -ApproveDestructive'
 
-$reviewed = $destructivePlan | Review-SynapsePlan -ApproveDestructive
+$reviewed = $destructivePlan | Confirm-SynapsePlan -ApproveDestructive
 Assert-True ($reviewed.Reviewed -eq $true) 'Reviewed after approval'
 Assert-True ($reviewed.DestructiveApproved -eq $true) 'DestructiveApproved set'
 
 # --- Simulation run ---
 $full = New-SynapsePlan -Intent 'discover, restart spooler, verify health' -Targets @('web-01', 'db-02')
-$full = $full | Review-SynapsePlan -ApproveDestructive
+$full = $full | Confirm-SynapsePlan -ApproveDestructive
 $flow = Start-SynapseFlow -Plan $full -MaxParallelStages 2 -Simulation
 Assert-True ($null -ne $flow.FlowId) 'Flow has FlowId'
 Assert-True ($flow.Status -in @('Succeeded', 'Failed')) 'Flow completed'
@@ -95,13 +95,13 @@ try {
         $flow.Plan.Stages[-1].Error = 'Synthetic failure for test'
         $flow.Status = 'Failed'
     }
-    $replanned = Replan-SynapseFlow -Flow $flow
+    $replanned = Repair-SynapseFlow -Flow $flow
     Assert-True ($replanned.Reviewed -eq $false) 'Replan returns Draft (not reviewed)'
     Assert-True ($replanned.Stages.Count -ge 1) 'Replan has stages'
 }
 catch {
     $replanThrew = $true
-    Write-Host "  FAIL  Replan-SynapseFlow: $($_.Exception.Message)" -ForegroundColor Red
+    Write-Host "  FAIL  Repair-SynapseFlow: $($_.Exception.Message)" -ForegroundColor Red
     $script:Failed++
 }
 if (-not $replanThrew) {

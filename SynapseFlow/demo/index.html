@@ -300,7 +300,7 @@
   -Targets web-01,db-02</span>
 <span class="c-ok"># PlanId=… Status=Draft Stages=3</span>
 
-<span class="c-cmd">$plan = $plan | Review-SynapsePlan -ApproveDestructive</span>
+<span class="c-cmd">$plan = $plan | Confirm-SynapsePlan -ApproveDestructive</span>
 <span class="c-ok"># Reviewed=True Status=Reviewed</span>
 
 <span class="c-cmd">$flow = Start-SynapseFlow -Plan $plan -MaxParallelStages 2 -Simulation</span>
