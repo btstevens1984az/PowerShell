@@ -1,0 +1,31 @@
+# PowerShell
+*.ps1xml.bak
+*.pssc.bak
+*.psd1.bak
+
+# Local test / report artifacts
+*.log
+report.json
+reports/
+out/
+artifacts/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*~
+
+# Local secrets — never commit
+.env
+.env.*
+*.pfx
+*.pem
+*.key
+
+# NuGet / publish
+*.nupkg
+.publish/
+sample-report.json

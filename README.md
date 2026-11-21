@@ -33,12 +33,25 @@ This repository is a production-style PowerShell script library built for **IT a
 | **Cross-cutting utilities** | Logging, error handling, parallel execution in `Shared/` |
 | **GUI tools** | WinForms and WPF applications in `Tools/` |
 
+### AI PowerShell suite
+
+Standalone automation modules published at the repo root (each has its own README, tests, and examples):
+
+| Module | Path | Description |
+|--------|------|-------------|
+| **LegionPS** | [`LegionPS/`](LegionPS/) | Parallel job planning, allowlisted playbooks, and redacted exports |
+| **SynapseFlow** | [`SynapseFlow/`](SynapseFlow/) | DAG-based staged workflows with catalog stages and replanning |
+| **HubRelay** | [`HubRelay/`](HubRelay/) | Hub/worker relay for signed jobs and fan-out execution |
+
 ---
 
 ## Repository Layout
 
 ```
 PowerShell/
+├── LegionPS/             # AI suite: parallel job orchestration module
+├── SynapseFlow/          # AI suite: DAG workflow module
+├── HubRelay/             # AI suite: hub/worker relay module
 ├── src/                  # Operational scripts — one folder per software platform
 ├── Modules/              # Reusable function libraries by software
 ├── Tools/                # Standalone GUI applications and utilities

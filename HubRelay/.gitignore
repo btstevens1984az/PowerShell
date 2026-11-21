@@ -1,0 +1,37 @@
+# Secrets & local env
+.env
+.env.*
+!.env.example
+*.token
+*.pem
+*.key
+*.pfx
+secrets/
+HUBRELAY_TOKEN
+
+# PowerShell
+*.pssc
+*.psd1.bak
+[Tt]est[Rr]esults/
+[Cc]overage/
+*.Tests.xml
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*~
+
+# Build / publish
+bin/
+obj/
+publish/
+out/
+dist/
+
+# Logs & scratch
+*.log
+/tmp/
+hubrelay-scratch/

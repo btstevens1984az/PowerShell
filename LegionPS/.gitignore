@@ -1,0 +1,37 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.vscode/
+.idea/
+
+# PowerShell / .NET
+*.dll
+*.pdb
+*.nupkg
+[Bb]in/
+[Oo]bj/
+
+# Local secrets & runtime (never commit)
+.env
+.env.*
+*.key
+*.pem
+*.pfx
+secrets/
+$env:TEMP/
+**/LegionPS/keys/
+
+# Test / coverage
+[Tt]est[Rr]esults/
+coverage/
+*.trx
+
+# Logs & local exports
+*.log
+summary.json
+**/exports/
+
+# Demo assets may be added later; ignore large binaries by default if dropped at root
+*.mp4
