@@ -1,9 +1,0 @@
-{
-  "playbook": "Get-ServiceHealth",
-  "targets": ["relay-alpha", "relay-bravo", "relay-charlie"],
-  "dryRun": true,
-  "simulation": true,
-  "parameters": {
-    "ServiceName": "hubrelay-agent"
-  }
-}
